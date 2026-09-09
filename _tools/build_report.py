@@ -85,9 +85,9 @@ def make_picture(ref_p, path, width_cm, cap_text=None):
 def fill_cover():
     pairs = {
         8: "题    目:  青阅书城 QingYue Bookstore（校园数字图书商城）",
-        10: "班    级：  【待填写】",
-        11: "学    号：  【待填写】",
-        12: "姓    名：  【待填写】",
+        10: "班    级：  软工2507班",
+        11: "学    号：  8002125223",
+        12: "姓    名：  邹浏源",
     }
     for idx, text in pairs.items():
         p = doc.paragraphs[idx]

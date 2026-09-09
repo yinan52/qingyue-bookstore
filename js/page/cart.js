@@ -15,10 +15,10 @@
     const guess = BOOKS.slice().sort((a, b) => b.sales - a.sales)
       .filter((b) => !inCart.includes(b.id)).slice(0, 4);
     renderList(guess, (book) => {
-      const card = createElement('div', { class: 'book-card', attrs: { 'data-id': book.id } });
+      const card = createElement('div', { class: 'book-card card-tilt animate-on-scroll', attrs: { 'data-id': book.id } });
       const cover = createElement('div', { class: 'card-cover' });
       cover.appendChild(createElement('img', {
-        attrs: { src: book.cover, alt: `《${book.title}》封面`, loading: 'lazy' }
+        attrs: { 'data-src': book.cover, alt: `《${book.title}》封面`, loading: 'lazy' }
       }));
       card.appendChild(cover);
       const body = createElement('div', { class: 'card-body' });
@@ -58,7 +58,12 @@
 
     const app = Vue.createApp({
       data() {
-        return { cartItems: buildItems() };
+        return {
+          cartItems: buildItems(),
+          coupons: (typeof COUPONS !== 'undefined') ? COUPONS : [],
+          // 已选优惠券 id，从 localStorage 恢复（默认不使用）
+          couponId: getStorage(STORAGE_KEYS.COUPON, 'none')
+        };
       },
       computed: {
         // 是否全选
@@ -78,6 +83,20 @@
           return this.cartItems
             .filter((i) => i.checked)
             .reduce((sum, i) => sum + i.price * i.qty, 0);
+        },
+        // 优惠券优惠金额（调用 data.js 中的公共计算函数）
+        couponDiscount() {
+          return calcCouponDiscount(this.couponId, this.totalPrice);
+        },
+        // 实付金额 = 商品总额 - 优惠
+        payPrice() {
+          return Math.max(0, Math.round((this.totalPrice - this.couponDiscount) * 100) / 100);
+        }
+      },
+      watch: {
+        // 优惠券选择变化时持久化到 localStorage
+        couponId(val) {
+          setStorage(STORAGE_KEYS.COUPON, val);
         }
       },
       methods: {
@@ -154,7 +173,8 @@
             id: Date.now(),
             no: 'QY' + Date.now().toString().slice(-10),
             items,
-            total: this.totalPrice,
+            total: this.payPrice,
+            couponDiscount: this.couponDiscount,
             time: formatTime(Date.now()),
             status: 'pending',   // pending=待发货
             user: user.username
@@ -166,7 +186,7 @@
           this.saveCartData();
           showModal({
             title: '下单成功 🎉',
-            message: `订单号：${order.no}\n合计金额：¥${order.total.toFixed(2)}，可在个人中心查看订单。`,
+            message: `订单号：${order.no}\n商品总额 ¥${this.totalPrice.toFixed(2)}${this.couponDiscount > 0 ? `，优惠 ¥${this.couponDiscount.toFixed(2)}` : ''}\n实付金额：¥${order.total.toFixed(2)}，可在个人中心查看订单。`,
             type: 'success'
           });
         }

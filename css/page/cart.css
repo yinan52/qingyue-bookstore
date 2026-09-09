@@ -377,3 +377,68 @@
     width: 100%;
   }
 }
+
+/* ---------- 优惠券选择面板 ---------- */
+.coupon-panel {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 16px 20px;
+  margin: 16px 0;
+}
+.coupon-head {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text-main);
+}
+.coupon-head i { color: var(--danger-color); }
+.coupon-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.coupon-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px dashed var(--border-color);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+.coupon-item:hover { border-color: var(--primary-color); }
+.coupon-item.active {
+  border: 1px solid var(--primary-color);
+  background: rgba(22, 93, 255, 0.06);
+}
+.coupon-item input { accent-color: var(--primary-color); }
+.coupon-item .c-info { flex: 1; }
+.coupon-item .c-name {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--danger-color);
+}
+.coupon-item .c-desc {
+  font-size: 12px;
+  color: var(--text-placeholder);
+}
+.coupon-item .c-unlock {
+  font-size: 12px;
+  color: var(--warning-color);
+}
+.coupon-item.disabled { opacity: 0.55; cursor: not-allowed; }
+
+/* 结算明细 */
+.settle-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.settle-detail .discount { color: var(--success-color); }
+.settle-detail strong { color: var(--text-main); }

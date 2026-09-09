@@ -90,16 +90,32 @@
   /* ---------- 5. 图书卡片渲染 ---------- */
   function renderBookCard(book) {
     const card = createElement('div', {
-      class: 'book-card',
+      class: 'book-card card-tilt',
       attrs: { 'data-id': book.id }
     });
     const cover = createElement('div', { class: 'card-cover' });
     if (book.isHot) {
       cover.appendChild(createElement('span', { class: 'badge-hot', text: 'HOT' }));
     }
+    // 图片 data-src 懒加载
     cover.appendChild(createElement('img', {
-      attrs: { src: book.cover, alt: `《${book.title}》封面`, loading: 'lazy' }
+      attrs: { 'data-src': book.cover, alt: `《${book.title}》封面`, loading: 'lazy' }
     }));
+    // 悬浮操作：快速预览 / 加入对比 / 加入购物车
+    const actions = createElement('div', { class: 'card-actions' });
+    actions.appendChild(createElement('button', {
+      class: 'card-action-btn', attrs: { 'data-act': 'preview', title: '快速查看' },
+      html: '<i class="fa-solid fa-eye"></i>'
+    }));
+    actions.appendChild(createElement('button', {
+      class: 'card-action-btn', attrs: { 'data-act': 'compare', title: '加入对比' },
+      html: '<i class="fa-solid fa-code-compare"></i>'
+    }));
+    actions.appendChild(createElement('button', {
+      class: 'card-action-btn', attrs: { 'data-act': 'addcart', title: '加入购物车' },
+      html: '<i class="fa-solid fa-cart-plus"></i>'
+    }));
+    cover.appendChild(actions);
     card.appendChild(cover);
 
     const body = createElement('div', { class: 'card-body' });
@@ -202,6 +218,21 @@
     grid.innerHTML = '';
     renderList(pageBooks, renderBookCard, grid);
     grid.addEventListener('click', (e) => {
+      // 悬浮操作按钮优先处理
+      const actBtn = e.target.closest('.card-action-btn');
+      if (actBtn) {
+        const card = actBtn.closest('.book-card');
+        const id = Number(card.dataset.id);
+        if (actBtn.dataset.act === 'preview') {
+          showBookPreview(id);
+        } else if (actBtn.dataset.act === 'addcart') {
+          addToCart(id, 1);
+          showToast('已加入购物车', 'success');
+        } else if (actBtn.dataset.act === 'compare') {
+          toggleCompare(id, actBtn);
+        }
+        return;
+      }
       const card = e.target.closest('.book-card');
       if (card) location.href = `detail.html?id=${card.dataset.id}`;
     });
@@ -251,6 +282,135 @@
       class: 'page-info',
       text: `${state.page} / ${totalPages} 页`
     }));
+  }
+
+  /* ---------- 7.5 图书对比（最多 3 本） ---------- */
+  const compareIds = [];   // 已选对比图书 id（内存态，刷新重置）
+  const MAX_COMPARE = 3;
+
+  /** 切换某本图书的对比状态 */
+  function toggleCompare(id, btn) {
+    const idx = compareIds.indexOf(id);
+    if (idx >= 0) {
+      compareIds.splice(idx, 1);
+      btn.classList.remove('active');
+      showToast('已移出对比', 'info');
+    } else {
+      if (compareIds.length >= MAX_COMPARE) {
+        showToast('最多同时对比 3 本图书', 'warning');
+        return;
+      }
+      compareIds.push(id);
+      btn.classList.add('active');
+      showToast('已加入对比', 'success');
+    }
+    renderCompareBar();
+  }
+
+  /** 渲染底部对比栏 */
+  function renderCompareBar() {
+    const bar = getElement('#compareBar');
+    const itemsBox = getElement('#compareItems');
+    const countEl = getElement('#compareCount');
+    if (!bar) return;
+    bar.classList.toggle('hidden', compareIds.length === 0);
+    countEl.textContent = compareIds.length;
+    itemsBox.innerHTML = '';
+    compareIds.forEach((id) => {
+      const book = BOOKS.find((b) => b.id === id);
+      if (!book) return;
+      const chip = createElement('div', { class: 'compare-chip' });
+      chip.innerHTML = `<img src="${book.cover}" alt=""><span class="chip-name ellipsis">${book.title}</span><i class="chip-del" data-id="${id}"><i class="fa-solid fa-xmark"></i></i>`;
+      itemsBox.appendChild(chip);
+    });
+  }
+
+  /** 弹出对比结果 modal（表格 + 最优值高亮） */
+  function showCompareModal() {
+    const list = compareIds.map((id) => BOOKS.find((b) => b.id === id)).filter(Boolean);
+    if (list.length < 2) {
+      showToast('请至少选择 2 本图书再对比', 'warning');
+      return;
+    }
+    // 计算每列最优值：最低价 / 最高评分 / 最高销量
+    const minPrice = Math.min(...list.map((b) => b.price));
+    const maxRating = Math.max(...list.map((b) => b.rating));
+    const maxSales = Math.max(...list.map((b) => b.sales));
+    const cell = (book, field, best, isMax) => {
+      const isBest = isMax ? book[field] === best : book[field] === best;
+      return `<td class="${isBest ? 'best-cell' : ''}">${book[field]}${isBest ? ' <i class="fa-solid fa-circle-check"></i>' : ''}</td>`;
+    };
+    const headCells = list.map((b) => `<th><img class="cmp-cover" src="${b.cover}" alt=""><div class="cmp-title">${b.title}</div></th>`).join('');
+    const rows = [
+      ['价格(元)', list.map((b) => cell(b, 'price', minPrice)).join('')],
+      ['原价(元)', list.map((b) => `<td>${b.originalPrice.toFixed(2)}</td>`).join('')],
+      ['评分', list.map((b) => cell(b, 'rating', maxRating)).join('')],
+      ['销量(册)', list.map((b) => cell(b, 'sales', maxSales)).join('')],
+      ['作者', list.map((b) => `<td>${b.author}</td>`).join('')],
+      ['出版社', list.map((b) => `<td>${b.publisher}</td>`).join('')],
+      ['出版日期', list.map((b) => `<td>${b.pubDate}</td>`).join('')],
+      ['页数', list.map((b) => `<td>${b.pages}</td>`).join('')],
+      ['库存', list.map((b) => `<td>${b.stock}</td>`).join('')]
+    ];
+    const rowsHtml = rows.map(([label, cells]) => `<tr><td class="cmp-label">${label}</td>${cells}</tr>`).join('');
+    // 标签行：每本图书各自标签
+    const tagRow = `<tr><td class="cmp-label">标签</td>${list.map((b) => `<td>${b.tags.map((t) => `<span class="tag tag-blue">${t}</span>`).join(' ')}</td>`).join('')}</tr>`;
+
+    getElement('.preview-mask')?.remove();
+    const mask = createElement('div', {
+      class: 'preview-mask show',
+      html: `
+        <div class="book-preview-modal" style="width:860px">
+          <button class="preview-close" aria-label="关闭"><i class="fa-solid fa-xmark"></i></button>
+          <h3 style="margin-bottom:14px">图书对比 <small style="font-weight:400;color:var(--text-placeholder)">（绿色为该列最优）</small></h3>
+          <div class="cmp-table-wrap">
+            <table class="cmp-table">
+              <thead><tr><th></th>${headCells}</tr></thead>
+              <tbody>${rowsHtml}${tagRow}</tbody>
+            </table>
+          </div>
+        </div>`
+    });
+    document.body.appendChild(mask);
+    const close = () => mask.remove();
+    getElement('.preview-close', mask).addEventListener('click', close);
+    mask.addEventListener('click', (e) => { if (e.target === mask) close(); });
+  }
+
+  /** 绑定对比栏事件 */
+  function bindCompare() {
+    getElement('#compareItems')?.addEventListener('click', (e) => {
+      const del = e.target.closest('.chip-del');
+      if (del) {
+        const id = Number(del.dataset.id);
+        const idx = compareIds.indexOf(id);
+        if (idx >= 0) compareIds.splice(idx, 1);
+        // 同步卡片上的选中态
+        getElement(`.book-card[data-id="${id}"] .card-action-btn[data-act="compare"]`)?.classList.remove('active');
+        renderCompareBar();
+      }
+    });
+    getElement('#compareStartBtn')?.addEventListener('click', showCompareModal);
+    getElement('#compareClearBtn')?.addEventListener('click', () => {
+      compareIds.length = 0;
+      getElements('.card-action-btn[data-act="compare"]').forEach((b) => b.classList.remove('active'));
+      renderCompareBar();
+    });
+  }
+
+  /* ---------- 7.6 页面内搜索自动补全 ---------- */
+  function bindPageSearch() {
+    const input = getElement('#pageSearchInput');
+    if (!input) return;
+    // 回填 URL 关键词
+    if (state.keyword) input.value = state.keyword;
+    initSearchAutocomplete(input, (kw) => {
+      state.keyword = kw;
+      state.page = 1;
+      if (kw) saveSearchHistory(kw);
+      renderSearchHistory();
+      renderBooks();
+    });
   }
 
   /* ---------- 8. 事件绑定（addEventListener 多种事件 + 事件委托） ---------- */
@@ -323,6 +483,8 @@
     renderCategories();
     renderSearchHistory();
     bindEvents();
+    bindCompare();
+    bindPageSearch();
     renderBooks();
     renderFooterYear();
   }

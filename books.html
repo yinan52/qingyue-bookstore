@@ -101,6 +101,11 @@
 
         <!-- ========== 主区：工具栏 + 图书网格 + 分页 ========== -->
         <section class="shop-main" aria-label="图书列表">
+          <!-- 页面内搜索框（带自动补全） -->
+          <div class="page-search">
+            <input type="search" id="pageSearchInput" class="form-control" placeholder="输入书名关键词，如：Python / 三体…" aria-label="站内搜索">
+          </div>
+
           <div class="toolbar">
             <div class="result-info" id="resultInfo"></div>
             <div class="sort-bar" id="sortBar">
@@ -113,8 +118,18 @@
             </div>
           </div>
 
+          <!-- 图书对比栏（选择图书后显示） -->
+          <div class="compare-bar hidden" id="compareBar">
+            <span class="compare-tip"><i class="fa-solid fa-code-compare"></i> 已选 <strong id="compareCount">0</strong>/3 本</span>
+            <div class="compare-items" id="compareItems"></div>
+            <div class="compare-ops">
+              <button class="btn btn-primary btn-sm" id="compareStartBtn">开始对比</button>
+              <button class="btn btn-gray btn-sm" id="compareClearBtn">清空</button>
+            </div>
+          </div>
+
           <!-- 图书网格容器（动态渲染） -->
-          <div class="book-grid" id="bookGrid">
+          <div class="book-grid animate-on-scroll" id="bookGrid">
             <div class="loading-spinner"></div>
           </div>
 

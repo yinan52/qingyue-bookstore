@@ -13,8 +13,10 @@ const STORAGE_KEYS = {
   HISTORY: 'qy_history',        // 浏览记录
   USER: 'qy_user',              // 当前登录用户
   USERS: 'qy_users',            // 用户数据库
-  THEME: 'qy_theme',            // 主题偏好
-  SEARCH: 'qy_search_history'   // 搜索历史
+  THEME: 'qy_theme',            // 主题色（user.html 强调色 hex）
+  SEARCH: 'qy_search_history',  // 搜索历史
+  DARK_MODE: 'qy_dark_mode',    // 明暗模式偏好（light / dark）
+  COUPON: 'qy_coupon'           // 购物车已选优惠券 id
 };
 
 /**
@@ -564,6 +566,362 @@ function verifyCaptcha(input) {
   return String(input || '').trim().toLowerCase() === captchaCode.toLowerCase();
 }
 
+/* ==========================================================================
+   以下为本次升级新增：明暗主题 / 回到顶部 / 滚动动画 / 微交互 /
+   图书快速预览 / 搜索自动补全 等全站通用能力
+   ========================================================================== */
+
+/* ---------- A1. 全站明暗主题切换 ---------- */
+
+/**
+ * 应用明暗模式到 <html> 根节点
+ * @param {string} mode - 'light' | 'dark'
+ */
+function applyDarkMode(mode) {
+  const root = document.documentElement;
+  if (mode === 'dark') {
+    root.setAttribute('data-theme', 'dark');
+  } else {
+    root.removeAttribute('data-theme');
+  }
+  // 同步切换按钮图标
+  const btn = getElement('.theme-toggle');
+  if (btn) {
+    btn.innerHTML = mode === 'dark'
+      ? '<i class="fa-solid fa-sun"></i>'
+      : '<i class="fa-solid fa-moon"></i>';
+  }
+}
+
+/**
+ * 初始化明暗主题：读取偏好 + 注入切换按钮 + 绑定事件
+ */
+function initTheme() {
+  const headerTools = getElement('.header-tools');
+  // 注入主题切换按钮（避免逐个 HTML 手写，保证所有页面一致）
+  if (headerTools && !getElement('.theme-toggle', headerTools)) {
+    const toggle = createElement('button', {
+      class: 'theme-toggle',
+      attrs: { id: 'themeToggle', 'aria-label': '切换明暗主题', title: '切换明暗主题' }
+    });
+    headerTools.insertBefore(toggle, headerTools.firstChild);
+    toggle.addEventListener('click', () => {
+      const root = document.documentElement;
+      const isDark = root.getAttribute('data-theme') === 'dark';
+      const next = isDark ? 'light' : 'dark';
+      // 短暂加过渡类，实现 0.3s 平滑切换
+      document.documentElement.classList.add('theme-transition');
+      applyDarkMode(next);
+      setStorage(STORAGE_KEYS.DARK_MODE, next);
+      toggle.classList.add('spin');
+      setTimeout(() => {
+        toggle.classList.remove('spin');
+        document.documentElement.classList.remove('theme-transition');
+      }, 400);
+      showToast(next === 'dark' ? '已切换到深色模式' : '已切换到浅色模式', 'info', 1200);
+    });
+  }
+  // 应用已保存的偏好（无记录则默认浅色）
+  const saved = getStorage(STORAGE_KEYS.DARK_MODE, 'light');
+  applyDarkMode(saved === 'dark' ? 'dark' : 'light');
+}
+
+/* ---------- A2. 回到顶部 + 滚动进度条 ---------- */
+
+/**
+ * 初始化回到顶部按钮与顶部阅读进度条
+ */
+function initScrollTools() {
+  // 注入进度条
+  let progress = getElement('.scroll-progress');
+  if (!progress) {
+    progress = createElement('div', { class: 'scroll-progress' });
+    document.body.appendChild(progress);
+  }
+  // 注入回到顶部按钮
+  let backTop = getElement('.back-to-top');
+  if (!backTop) {
+    backTop = createElement('button', {
+      class: 'back-to-top',
+      attrs: { 'aria-label': '回到顶部', title: '回到顶部' },
+      html: '<i class="fa-solid fa-arrow-up"></i>'
+    });
+    document.body.appendChild(backTop);
+    backTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+  // 滚动监听：更新进度条宽度 + 按钮显隐
+  window.addEventListener('scroll', () => {
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const ratio = docHeight > 0 ? (window.scrollY / docHeight) : 0;
+    progress.style.width = (ratio * 100).toFixed(2) + '%';
+    backTop.classList.toggle('show', window.scrollY > 300);
+  }, { passive: true });
+}
+
+/* ---------- A3. 滚动进入动画 ---------- */
+
+/**
+ * 初始化 IntersectionObserver：带 .animate-on-scroll 的元素进入视口时加 .visible
+ */
+function initScrollAnimations() {
+  if (!('IntersectionObserver' in window)) {
+    // 降级：直接全部显示
+    getElements('.animate-on-scroll').forEach((el) => el.classList.add('visible'));
+    return;
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  const watch = () => {
+    getElements('.animate-on-scroll:not(.visible)').forEach((el) => observer.observe(el));
+  };
+  watch();
+  // 动态渲染的内容（如图书卡片）也能被观察
+  new MutationObserver(watch).observe(document.body, { childList: true, subtree: true });
+}
+
+/* ---------- A4. 微交互：卡片 3D 倾斜 ---------- */
+
+/**
+ * 初始化卡片 3D 倾斜（mousemove 计算 rotateX/rotateY）
+ */
+function initCardTilt() {
+  document.addEventListener('mousemove', (e) => {
+    const card = e.target.closest('.card-tilt');
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width - 0.5;
+    const py = (e.clientY - rect.top) / rect.height - 0.5;
+    card.style.transform = `perspective(800px) rotateX(${(-py * 8).toFixed(2)}deg) rotateY(${(px * 8).toFixed(2)}deg) translateY(-6px)`;
+  });
+  document.addEventListener('mouseout', (e) => {
+    const card = e.target.closest('.card-tilt');
+    if (card && !card.contains(e.relatedTarget)) {
+      card.style.transform = '';
+    }
+  });
+}
+
+/* ---------- A4. 微交互：按钮波纹 ---------- */
+
+/**
+ * 初始化按钮点击波纹效果（事件委托到 document）
+ */
+function initRipple() {
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.btn');
+    if (!btn) return;
+    const rect = btn.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const ink = createElement('span', { class: 'ripple-ink' });
+    ink.style.width = ink.style.height = size + 'px';
+    ink.style.left = (e.clientX - rect.left - size / 2) + 'px';
+    ink.style.top = (e.clientY - rect.top - size / 2) + 'px';
+    btn.appendChild(ink);
+    setTimeout(() => ink.remove(), 600);
+  });
+}
+
+/* ---------- A4. 图片懒加载（data-src） ---------- */
+
+/**
+ * 初始化图片懒加载：img[data-src] 进入视口后才加载并淡入
+ */
+function initLazyLoad() {
+  const loadImg = (img) => {
+    if (img.dataset.src) {
+      img.src = img.dataset.src;
+      img.removeAttribute('data-src');
+    }
+    img.classList.add('loaded');
+  };
+  if (!('IntersectionObserver' in window)) {
+    getElements('img[data-src]').forEach(loadImg);
+    return;
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        loadImg(entry.target);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { rootMargin: '200px' });
+  const scan = () => {
+    getElements('img[data-src]').forEach((img) => {
+      if (!img.dataset.watched) {
+        img.dataset.watched = '1';
+        img.classList.add('lazy-img');
+        observer.observe(img);
+      }
+    });
+  };
+  scan();
+  new MutationObserver(scan).observe(document.body, { childList: true, subtree: true });
+}
+
+/* ---------- B1. 图书快速预览弹窗 ---------- */
+
+/**
+ * 弹出图书快速预览 modal
+ * @param {number} bookId - 图书 id
+ */
+function showBookPreview(bookId) {
+  const book = (typeof BOOKS !== 'undefined') && BOOKS.find((b) => b.id === bookId);
+  if (!book) {
+    showToast('未找到该图书', 'error');
+    return;
+  }
+  // 关闭已有预览
+  getElement('.preview-mask')?.remove();
+  const tagsHtml = book.tags.map((t) => `<span class="tag tag-blue">${t}</span>`).join('');
+  const mask = createElement('div', {
+    class: 'preview-mask',
+    html: `
+      <div class="book-preview-modal">
+        <button class="preview-close" aria-label="关闭"><i class="fa-solid fa-xmark"></i></button>
+        <div class="preview-layout">
+          <div class="preview-cover">
+            <img src="${book.cover}" alt="《${book.title}》封面">
+          </div>
+          <div class="preview-info">
+            <h3>${book.title}</h3>
+            <p class="preview-author">${book.author} 著 · ${book.publisher}</p>
+            <div class="preview-price-row">
+              <span class="preview-price">¥${formatPrice(book.price)}</span>
+              ${book.originalPrice > book.price ? `<span class="preview-original">¥${formatPrice(book.originalPrice)}</span>` : ''}
+            </div>
+            <div class="preview-stats">
+              <span class="stars"><i class="fa-solid fa-star"></i> ${book.rating} 分</span>
+              <span>已售 ${formatNumber(book.sales)} 册</span>
+              <span>库存 ${book.stock} 件</span>
+            </div>
+            <div class="preview-tags">${tagsHtml}</div>
+            <p class="preview-desc">${book.desc.slice(0, 110)}…</p>
+            <div class="preview-actions">
+              <button class="btn btn-primary" data-act="addcart"><i class="fa-solid fa-cart-shopping"></i> 加入购物车</button>
+              <button class="btn btn-outline" data-act="detail">查看详情 <i class="fa-solid fa-angle-right"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>`
+  });
+  document.body.appendChild(mask);
+  requestAnimationFrame(() => mask.classList.add('show'));
+  const close = () => {
+    mask.classList.remove('show');
+    setTimeout(() => mask.remove(), 300);
+  };
+  getElement('.preview-close', mask).addEventListener('click', close);
+  mask.addEventListener('click', (e) => { if (e.target === mask) close(); });
+  getElement('[data-act="addcart"]', mask).addEventListener('click', () => {
+    addToCart(book.id, 1);
+    showToast('已加入购物车', 'success');
+    close();
+  });
+  getElement('[data-act="detail"]', mask).addEventListener('click', () => {
+    location.href = `detail.html?id=${book.id}`;
+  });
+}
+
+/* ---------- B4. 搜索自动补全（可复用） ---------- */
+
+/**
+ * 为输入框绑定搜索自动补全
+ * @param {HTMLInputElement} input - 搜索输入框
+ * @param {Object} [opts] - { onSelect(kw) } 选中/回车后的回调
+ */
+function initSearchAutocomplete(input, opts = {}) {
+  if (!input) return;
+  const box = createElement('div', { class: 'search-suggestions' });
+  // 外层包一层 relative 容器
+  const wrap = document.createElement('div');
+  wrap.className = 'search-box';
+  input.parentNode.insertBefore(wrap, input);
+  wrap.appendChild(input);
+  wrap.appendChild(box);
+
+  let activeIdx = -1;
+  let currentList = [];
+
+  const highlight = (text, kw) => {
+    const safe = text.replace(/</g, '&lt;');
+    const safeKw = kw.replace(/</g, '&lt;');
+    return safe.replace(new RegExp(safeKw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'ig'), (m) => `<mark>${m}</mark>`);
+  };
+
+  const render = (kw) => {
+    currentList = BOOKS.filter((b) => b.title.toLowerCase().includes(kw.toLowerCase())).slice(0, 8);
+    activeIdx = -1;
+    box.innerHTML = '';
+    if (!kw || currentList.length === 0) {
+      box.classList.remove('show');
+      return;
+    }
+    currentList.forEach((book, i) => {
+      const item = createElement('div', {
+        class: 'suggest-item',
+        attrs: { 'data-i': i },
+        html: `<img class="sug-cover" src="${book.cover}" alt=""><span class="sug-title">${highlight(book.title, kw)}</span><span class="sug-price">¥${formatPrice(book.price)}</span>`
+      });
+      item.addEventListener('mousedown', (e) => {
+        e.preventDefault(); // 避免 input 失焦
+        choose(book.title);
+      });
+      box.appendChild(item);
+    });
+    box.classList.add('show');
+  };
+
+  const choose = (kw) => {
+    input.value = kw;
+    box.classList.remove('show');
+    if (typeof opts.onSelect === 'function') opts.onSelect(kw);
+  };
+
+  input.addEventListener('input', () => render(input.value.trim()));
+  input.addEventListener('focus', () => {
+    if (box.children.length) box.classList.add('show');
+  });
+  input.addEventListener('keydown', (e) => {
+    const items = box.children;
+    if (!box.classList.contains('show') || items.length === 0) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      activeIdx = (activeIdx + 1) % items.length;
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      activeIdx = (activeIdx - 1 + items.length) % items.length;
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (activeIdx >= 0) {
+        choose(currentList[activeIdx].title);
+      } else {
+        box.classList.remove('show');
+        if (typeof opts.onSelect === 'function') opts.onSelect(input.value.trim());
+      }
+      return;
+    } else if (e.key === 'Escape') {
+      box.classList.remove('show');
+      return;
+    } else {
+      return;
+    }
+    Array.from(items).forEach((it, i) => it.classList.toggle('active', i === activeIdx));
+  });
+  // 点击外部关闭
+  document.addEventListener('mousedown', (e) => {
+    if (!wrap.contains(e.target)) box.classList.remove('show');
+  });
+}
+
 /* ---------- 11. 页面公共布局渲染 ---------- */
 
 /**
@@ -635,8 +993,23 @@ function initLayout(currentPage) {
   }
   if (searchBtn) searchBtn.addEventListener('click', doSearch);
 
+  // header 搜索框自动补全（回车即跳转搜索页）
+  if (searchInput && typeof BOOKS !== 'undefined') {
+    initSearchAutocomplete(searchInput, (kw) => {
+      if (kw) location.href = `books.html?keyword=${encodeURIComponent(kw)}`;
+    });
+  }
+
   renderUserArea();
   updateCartBadge();
+
+  /* —— 全站升级：明暗主题 / 回到顶部 / 滚动动画 / 微交互 / 懒加载 —— */
+  initTheme();
+  initScrollTools();
+  initScrollAnimations();
+  initCardTilt();
+  initRipple();
+  initLazyLoad();
 }
 
 /**

@@ -117,6 +117,29 @@
             </div>
           </div>
 
+          <!-- 优惠券选择 -->
+          <div class="coupon-panel">
+            <div class="coupon-head"><i class="fa-solid fa-ticket"></i> 选择优惠券</div>
+            <div class="coupon-list">
+              <label class="coupon-item" :class="{ active: couponId === 'none' }">
+                <input type="radio" name="coupon" value="none" v-model="couponId">
+                <span class="c-name">不使用优惠券</span>
+              </label>
+              <label
+                v-for="c in coupons" :key="c.id"
+                class="coupon-item"
+                :class="{ active: couponId === c.id, disabled: totalPrice < c.threshold }">
+                <input type="radio" name="coupon" :value="c.id" v-model="couponId"
+                       :disabled="totalPrice < c.threshold">
+                <span class="c-info">
+                  <span class="c-name">{{ c.name }}</span>
+                  <span class="c-desc">{{ c.desc }} · 有效期至 {{ c.expireDate }}</span>
+                </span>
+                <span v-if="totalPrice < c.threshold" class="c-unlock">差 ¥{{ (c.threshold - totalPrice).toFixed(2) }} 可用</span>
+              </label>
+            </div>
+          </div>
+
           <!-- 结算栏 -->
           <div class="cart-footer">
             <button class="clear-all-btn" @click="clearAll">
@@ -126,8 +149,12 @@
               <span class="settle-info">
                 已选 <strong>{{ checkedCount }}</strong> 件，共 <strong>{{ totalQty }}</strong> 本
               </span>
+              <span class="settle-detail">
+                <em>商品总额 <strong>¥{{ totalPrice.toFixed(2) }}</strong></em>
+                <em v-if="couponDiscount > 0" class="discount">优惠 <strong>-¥{{ couponDiscount.toFixed(2) }}</strong></em>
+              </span>
               <span class="settle-total">
-                合计：<strong>¥{{ totalPrice.toFixed(2) }}</strong>
+                实付：<strong>¥{{ payPrice.toFixed(2) }}</strong>
               </span>
               <button class="btn btn-primary btn-lg" @click="checkout">
                 去结算 <i class="fa-solid fa-angle-right"></i>

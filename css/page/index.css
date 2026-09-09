@@ -579,7 +579,181 @@
   background: rgba(255, 255, 255, 0.06);
 }
 
-/* ---------- 8. 响应式 ---------- */
+/* ---------- 8. 限时秒杀 ---------- */
+.seckill-section {
+  padding: 18px 0 4px;
+}
+.seckill-card {
+  display: flex;
+  gap: 24px;
+  background: linear-gradient(135deg, #FFF3E8, #FFE0E0);
+  border-radius: var(--radius-lg);
+  padding: 22px 24px;
+  box-shadow: var(--shadow-card);
+  align-items: stretch;
+}
+:root[data-theme="dark"] .seckill-card {
+  background: linear-gradient(135deg, #2a2018, #2a1a1f);
+}
+.seckill-left {
+  width: 200px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.seckill-left h2 {
+  font-size: 22px;
+  color: var(--danger-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.seckill-sub {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin: 4px 0 12px;
+}
+.seckill-countdown {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+}
+.seckill-countdown .cd-box {
+  background: #1D2129;
+  border-radius: 6px;
+  padding: 4px 8px;
+  min-width: 40px;
+  text-align: center;
+}
+.seckill-countdown em { font-style: normal; color: #1D2129; }
+.seckill-end .seckill-countdown { opacity: 0.5; }
+.seckill-right {
+  flex: 1;
+  overflow: hidden;
+}
+.seckill-track {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scroll-behavior: smooth;
+}
+.seckill-item {
+  flex: 0 0 130px;
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.seckill-item:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+.seckill-item .sk-cover {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+.sk-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+.sk-price-row { display: flex; align-items: baseline; gap: 6px; }
+.sk-price { color: var(--danger-color); font-weight: 800; font-size: 16px; }
+.sk-original { color: var(--text-placeholder); font-size: 11px; text-decoration: line-through; }
+.sk-progress {
+  height: 6px;
+  background: rgba(245, 63, 63, 0.15);
+  border-radius: 3px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+.sk-bar {
+  height: 100%;
+  background: var(--gradient-hot);
+  border-radius: 3px;
+}
+.sk-sold { font-size: 11px; color: var(--danger-color); margin-top: 4px; }
+
+/* ---------- 8.2 编辑推荐书单 ---------- */
+.picks-section { padding: 30px 0 10px; }
+.picks-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.pick-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.pick-cover-stack {
+  display: flex;
+  padding: 14px;
+  gap: 8px;
+  background: var(--gradient-brand);
+}
+.pick-cover-stack img {
+  width: 60px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  border: 2px solid rgba(255, 255, 255, 0.7);
+}
+.pick-body { padding: 14px 16px 16px; }
+.pick-title { font-size: 16px; margin-bottom: 6px; color: var(--text-main); }
+.pick-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  height: 40px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  margin-bottom: 12px;
+}
+.pick-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.pick-count { font-size: 12px; color: var(--text-placeholder); }
+.pick-link { font-size: 13px; color: var(--primary-color); font-weight: 600; }
+
+/* 书单详情 modal 内图书列表 */
+.pick-books {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.pick-book {
+  display: flex;
+  gap: 12px;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+.pick-book:hover { border-color: var(--primary-color); transform: translateY(-2px); }
+.pick-book img { width: 44px; height: 60px; object-fit: cover; border-radius: 4px; }
+.pick-book-info { min-width: 0; }
+.pb-title { font-size: 13px; font-weight: 600; color: var(--text-main); }
+.pb-author { font-size: 12px; color: var(--text-placeholder); margin: 2px 0; }
+.pb-price { font-size: 14px; color: var(--danger-color); font-weight: 700; }
+
+/* ---------- 9. 响应式 ---------- */
 @media (max-width: 992px) {
   .category-grid {
     grid-template-columns: repeat(3, 1fr);
@@ -640,4 +814,14 @@
   .quote-card p {
     font-size: 15px;
   }
+}
+
+/* 新增模块响应式 */
+@media (max-width: 992px) {
+  .seckill-card { flex-direction: column; }
+  .seckill-left { width: auto; flex-direction: row; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .picks-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .pick-books { grid-template-columns: 1fr; }
 }

@@ -259,13 +259,19 @@
 
     renderList(related, (book) => {
       const card = createElement('div', {
-        class: 'book-card',
+        class: 'book-card card-tilt',
         attrs: { 'data-id': book.id }
       });
       const cover = createElement('div', { class: 'card-cover' });
       cover.appendChild(createElement('img', {
-        attrs: { src: book.cover, alt: `《${book.title}》封面`, loading: 'lazy' }
+        attrs: { 'data-src': book.cover, alt: `《${book.title}》封面`, loading: 'lazy' }
       }));
+      const actions = createElement('div', { class: 'card-actions' });
+      actions.appendChild(createElement('button', {
+        class: 'card-action-btn', attrs: { 'data-act': 'preview', title: '快速查看' },
+        html: '<i class="fa-solid fa-eye"></i>'
+      }));
+      cover.appendChild(actions);
       card.appendChild(cover);
       const body = createElement('div', { class: 'card-body' });
       body.appendChild(createElement('h3', { class: 'card-title', text: book.title }));
@@ -277,7 +283,13 @@
       }));
       body.appendChild(meta);
       card.appendChild(body);
-      card.addEventListener('click', () => { location.href = `detail.html?id=${book.id}`; });
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.card-action-btn')) {
+          showBookPreview(book.id);
+          return;
+        }
+        location.href = `detail.html?id=${book.id}`;
+      });
       return card;
     }, grid);
   }

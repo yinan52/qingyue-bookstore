@@ -204,7 +204,10 @@
                   </div>
                   <div class="order-foot">
                     <span>共 {{ o.items.length }} 种商品</span>
-                    <span class="order-total">实付 <strong>¥{{ o.total.toFixed(2) }}</strong></span>
+                    <span class="order-foot-right">
+                      <span class="order-total">实付 <strong>¥{{ (o.total || o.totalPrice || 0).toFixed(2) }}</strong></span>
+                      <button class="btn btn-outline btn-sm" @click="showOrderDetail(o)"><i class="fa-solid fa-file-lines"></i> 查看详情</button>
+                    </span>
                   </div>
                 </div>
               </div>

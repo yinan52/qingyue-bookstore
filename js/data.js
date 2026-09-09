@@ -336,6 +336,167 @@ const BOOKS = [
     isHot: true,
     isNew: false,
     desc: "一部写给大人看的童话。飞行员与小王子在沙漠中的相遇，玫瑰、狐狸与 B612 星球，用最纯净的语言道出爱、责任与孤独的真谛，被译成 300 多种语言，畅销全球。"
+  },
+  /* ============ 新增图书（17~24，扩充品类覆盖） ============ */
+  {
+    id: 17,
+    title: "Python编程：从入门到实践",
+    author: "埃里克·马瑟斯",
+    publisher: "人民邮电出版社",
+    pubDate: "2020-10",
+    pages: 460,
+    price: 89.0,
+    originalPrice: 89.0,
+    cover: "assets/images/goods/book-17.svg",
+    category: "computer",
+    categoryName: "计算机技术",
+    tags: ["Python入门", "实战项目", "零基础"],
+    rating: 9.5,
+    sales: 76543,
+    stock: 150,
+    isHot: true,
+    isNew: true,
+    desc: "全球畅销的 Python 入门经典。从变量、列表、函数讲到 Web 应用与数据可视化实战项目，边学边做，零基础也能快速上手写出属于自己的程序。"
+  },
+  {
+    id: 18,
+    title: "深入理解计算机系统（第3版）",
+    author: "Randal E. Bryant",
+    publisher: "机械工业出版社",
+    pubDate: "2016-11",
+    pages: 732,
+    price: 139.0,
+    originalPrice: 139.0,
+    cover: "assets/images/goods/book-18.svg",
+    category: "computer",
+    categoryName: "计算机技术",
+    tags: ["CSAPP", "系统基础", "经典教材"],
+    rating: 9.6,
+    sales: 28765,
+    stock: 72,
+    isHot: false,
+    isNew: true,
+    desc: "CMU 经典教材 CSAPP。从程序员视角理解计算机系统：信息表示、汇编、处理器、存储层次、链接与虚拟内存，是进阶系统开发的必读之作。"
+  },
+  {
+    id: 19,
+    title: "白夜行",
+    author: "东野圭吾",
+    publisher: "南海出版公司",
+    pubDate: "2013-01",
+    pages: 538,
+    price: 39.5,
+    originalPrice: 45.0,
+    cover: "assets/images/goods/book-19.svg",
+    category: "literature",
+    categoryName: "文学小说",
+    tags: ["推理悬疑", "东野圭吾", "长篇巨著"],
+    rating: 9.4,
+    sales: 112340,
+    stock: 210,
+    isHot: true,
+    isNew: false,
+    desc: "东野圭吾推理巅峰之作。一桩废弃大楼里的命案，牵出跨越十九年的宿命纠缠。“只希望能手牵手在太阳下散步”，绝望与坚守交织，令人唏嘘。"
+  },
+  {
+    id: 20,
+    title: "平凡的世界（全三册）",
+    author: "路遥",
+    publisher: "北京十月文艺出版社",
+    pubDate: "2017-03",
+    pages: 1614,
+    price: 108.0,
+    originalPrice: 108.0,
+    cover: "assets/images/goods/book-20.svg",
+    category: "literature",
+    categoryName: "文学小说",
+    tags: ["茅盾文学奖", "现实主义", "奋斗人生"],
+    rating: 9.7,
+    sales: 98760,
+    stock: 180,
+    isHot: true,
+    isNew: false,
+    desc: "茅盾文学奖皇冠上的明珠。以孙少安、孙少平兄弟为中心，展现 1975 至 1985 年间中国城乡的社会变迁与普通人在大时代里的奋斗与尊严。"
+  },
+  {
+    id: 21,
+    title: "万历十五年",
+    author: "黄仁宇",
+    publisher: "中华书局",
+    pubDate: "2014-02",
+    pages: 320,
+    price: 42.0,
+    originalPrice: 42.0,
+    cover: "assets/images/goods/book-21.svg",
+    category: "history",
+    categoryName: "历史人文",
+    tags: ["大历史观", "明史", "经典"],
+    rating: 9.3,
+    sales: 65430,
+    stock: 140,
+    isHot: false,
+    isNew: false,
+    desc: "黄仁宇“大历史观”代表作。以公元 1587 年这一“平淡之年”为切入口，从万历、张居正到海瑞、戚继光，剖开明王朝由盛转衰的深层逻辑。"
+  },
+  {
+    id: 22,
+    title: "穷查理宝典",
+    author: "彼得·考夫曼",
+    publisher: "中信出版社",
+    pubDate: "2016-07",
+    pages: 552,
+    price: 88.0,
+    originalPrice: 99.0,
+    cover: "assets/images/goods/book-22.svg",
+    category: "economy",
+    categoryName: "经济管理",
+    tags: ["投资思维", "多元思维模型", "查理·芒格"],
+    rating: 9.2,
+    sales: 41230,
+    stock: 96,
+    isHot: false,
+    isNew: true,
+    desc: "查理·芒格智慧箴言录。汇集芒格的演讲与思考，讲述如何运用“多元思维模型”理性决策、投资与生活，是投资者与思考者的案头经典。"
+  },
+  {
+    id: 23,
+    title: "写给大家看的设计书（第4版）",
+    author: "Robin Williams",
+    publisher: "人民邮电出版社",
+    pubDate: "2016-10",
+    pages: 256,
+    price: 49.0,
+    originalPrice: 49.0,
+    cover: "assets/images/goods/book-23.svg",
+    category: "art",
+    categoryName: "艺术设计",
+    tags: ["设计入门", "四大原则", "非设计师"],
+    rating: 9.1,
+    sales: 23456,
+    stock: 80,
+    isHot: false,
+    isNew: false,
+    desc: "设计入门神书。用亲密性、对齐、重复、对比四大原则，让零基础读者也能做出专业级排版，被全球数百万设计师与非设计师奉为启蒙经典。"
+  },
+  {
+    id: 24,
+    title: "时间简史（插图本）",
+    author: "史蒂芬·霍金",
+    publisher: "湖南科学技术出版社",
+    pubDate: "2014-06",
+    pages: 256,
+    price: 45.0,
+    originalPrice: 45.0,
+    cover: "assets/images/goods/book-24.svg",
+    category: "science",
+    categoryName: "科普科学",
+    tags: ["宇宙学", "黑洞", "科普经典"],
+    rating: 9.4,
+    sales: 54320,
+    stock: 130,
+    isHot: false,
+    isNew: false,
+    desc: "霍金科普巨著。从大爆炸到黑洞，从时间本质到宇宙命运，用通俗语言带领读者进行一场跨越时空的思想之旅，是了解宇宙的最佳入门书。"
   }
 ];
 
@@ -409,4 +570,166 @@ const APP_CONFIG = {
     hitokoto: "https://v1.hitokoto.cn/",          // 一言 API（Axios 演示）
     ipify: "https://api.ipify.org?format=json"     // 公网 IP API（Axios 演示）
   }
+};
+
+/* ==========================================================================
+   以下为本次升级新增的模拟数据：优惠券 / 编辑推荐书单 / 示例订单
+   ========================================================================== */
+
+/** 优惠券数组：type=full(满减) / discount(折扣，amount 为封顶减免额) */
+const COUPONS = [
+  {
+    id: 'c1',
+    name: '满100减10',
+    type: 'full',
+    threshold: 100,       // 满减门槛
+    discount: 0,          // 满减券不使用该字段
+    amount: 10,           // 减免金额
+    expireDate: '2026-12-31',
+    desc: '全场图书满 100 元可用'
+  },
+  {
+    id: 'c2',
+    name: '满200减30',
+    type: 'full',
+    threshold: 200,
+    discount: 0,
+    amount: 30,
+    expireDate: '2026-12-31',
+    desc: '全场图书满 200 元可用'
+  },
+  {
+    id: 'c3',
+    name: '满300减50',
+    type: 'full',
+    threshold: 300,
+    discount: 0,
+    amount: 50,
+    expireDate: '2026-12-31',
+    desc: '全场图书满 300 元可用'
+  },
+  {
+    id: 'c4',
+    name: '全场9折券',
+    type: 'discount',
+    threshold: 0,         // 无门槛
+    discount: 0.9,        // 9 折
+    amount: 30,           // 最多减免 30 元
+    expireDate: '2026-12-31',
+    desc: '全场 9 折，最高抵扣 30 元'
+  }
+];
+
+/**
+ * 计算指定优惠券在某总额下的优惠金额
+ * @param {string} couponId - 优惠券 id（传 'none' 或空表示不使用）
+ * @param {number} totalPrice - 商品总额
+ * @returns {number} 优惠金额（不超过 0）
+ */
+function calcCouponDiscount(couponId, totalPrice) {
+  if (!couponId || couponId === 'none') return 0;
+  const coupon = COUPONS.find((c) => c.id === couponId);
+  if (!coupon) return 0;
+  // 满减券：未达门槛不可用
+  if (coupon.type === 'full') {
+    if (totalPrice < coupon.threshold) return 0;
+    return coupon.amount;
+  }
+  // 折扣券：原价 ×(1-折扣)，且不超过封顶金额
+  if (coupon.type === 'discount') {
+    const off = Math.round(totalPrice * (1 - coupon.discount) * 100) / 100;
+    return Math.min(off, coupon.amount);
+  }
+  return 0;
+}
+
+/** 编辑推荐书单：首页“编辑推荐”模块 */
+const EDITOR_PICKS = [
+  {
+    id: 'p1',
+    title: '前端进阶必读书单',
+    desc: '从入门到源码，这套书单帮你打通前端知识体系，大厂面试不再慌。',
+    bookIds: [1, 2, 3, 15, 17],
+    cover: 'assets/images/goods/book-01.svg'
+  },
+  {
+    id: 'p2',
+    title: '一个人的文学夜晚',
+    desc: '适合在深夜安静阅读的文学经典，在故事里遇见另一种人生。',
+    bookIds: [5, 6, 16, 19, 20],
+    cover: 'assets/images/goods/book-05.svg'
+  },
+  {
+    id: 'p3',
+    title: '提升思维格局',
+    desc: '历史、经济与认知科学的交叉读物，帮你建立更清晰的决策框架。',
+    bookIds: [8, 11, 21, 22, 24],
+    cover: 'assets/images/goods/book-08.svg'
+  }
+];
+
+/**
+ * 示例订单数据（用于订单详情与物流时间线演示）
+ * status: pending(待付款) / shipped(已发货) / transporting(运输中) / delivered(已签收)
+ */
+const ORDERS = [
+  {
+    id: 9001,
+    no: 'QY20260828001',
+    items: [
+      { bookId: 1, qty: 1, price: 129.0 },
+      { bookId: 17, qty: 1, price: 89.0 }
+    ],
+    totalPrice: 218.0,
+    couponDiscount: 30,
+    status: 'delivered',
+    createTime: '2026-08-28 10:24',
+    address: '江西省南昌市红谷滩区南昌大学前湖校区 13 栋宿舍 402'
+  },
+  {
+    id: 9002,
+    no: 'QY20260905002',
+    items: [
+      { bookId: 5, qty: 1, price: 93.0 },
+      { bookId: 6, qty: 2, price: 28.0 }
+    ],
+    totalPrice: 149.0,
+    couponDiscount: 10,
+    status: 'transporting',
+    createTime: '2026-09-05 19:02',
+    address: '江西省南昌市红谷滩区南昌大学前湖校区 13 栋宿舍 402'
+  },
+  {
+    id: 9003,
+    no: 'QY20260908003',
+    items: [
+      { bookId: 22, qty: 1, price: 88.0 }
+    ],
+    totalPrice: 88.0,
+    couponDiscount: 0,
+    status: 'shipped',
+    createTime: '2026-09-08 21:47',
+    address: '江西省南昌市红谷滩区南昌大学前湖校区 13 栋宿舍 402'
+  },
+  {
+    id: 9004,
+    no: 'QY20260909004',
+    items: [
+      { bookId: 24, qty: 1, price: 45.0 },
+      { bookId: 23, qty: 1, price: 49.0 }
+    ],
+    totalPrice: 94.0,
+    couponDiscount: 0,
+    status: 'pending',
+    createTime: '2026-09-09 09:15',
+    address: '江西省南昌市红谷滩区南昌大学前湖校区 13 栋宿舍 402'
+  }
+];
+
+/** 订单状态中文映射 */
+const ORDER_STATUS_MAP = {
+  pending: '待付款',
+  shipped: '已发货',
+  transporting: '运输中',
+  delivered: '已签收'
 };

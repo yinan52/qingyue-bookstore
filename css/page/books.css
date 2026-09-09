@@ -330,3 +330,108 @@
     align-items: flex-start;
   }
 }
+
+/* ---------- 6. 页面内搜索框 ---------- */
+.page-search {
+  margin-bottom: 14px;
+}
+.page-search .form-control {
+  background: var(--bg-card);
+}
+
+/* ---------- 7. 图书对比栏 ---------- */
+.compare-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.compare-tip { font-size: 13px; color: var(--text-secondary); }
+.compare-tip strong { color: var(--primary-color); font-size: 16px; }
+.compare-items {
+  display: flex;
+  gap: 10px;
+  flex: 1;
+  flex-wrap: wrap;
+}
+.compare-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-page);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+  max-width: 180px;
+}
+.compare-chip img {
+  width: 24px;
+  height: 32px;
+  object-fit: cover;
+  border-radius: 3px;
+}
+.compare-chip .chip-name {
+  flex: 1;
+  font-size: 12px;
+  color: var(--text-main);
+}
+.compare-chip .chip-del {
+  color: var(--text-placeholder);
+  cursor: pointer;
+  font-size: 12px;
+}
+.compare-chip .chip-del:hover { color: var(--danger-color); }
+.compare-ops { display: flex; gap: 8px; }
+
+/* 对比按钮选中态 */
+.card-action-btn.active {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+/* ---------- 8. 对比结果表格 ---------- */
+.cmp-table-wrap { overflow-x: auto; }
+.cmp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.cmp-table th,
+.cmp-table td {
+  border: 1px solid var(--border-color);
+  padding: 10px 12px;
+  text-align: center;
+  color: var(--text-main);
+}
+.cmp-table thead th {
+  background: var(--bg-page);
+}
+.cmp-table .cmp-cover {
+  width: 46px;
+  height: 62px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin: 0 auto 6px;
+}
+.cmp-table .cmp-title {
+  font-size: 13px;
+  font-weight: 600;
+  max-width: 120px;
+}
+.cmp-table td.cmp-label {
+  background: var(--bg-page);
+  color: var(--text-secondary);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.cmp-table .best-cell {
+  background: rgba(0, 180, 42, 0.12);
+  color: var(--success-color);
+  font-weight: 700;
+}

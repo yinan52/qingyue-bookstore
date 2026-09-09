@@ -87,7 +87,10 @@
         },
         orders() {
           if (!this.user) return [];
-          return getStorage('qy_orders', []).filter((o) => o.user === this.user.username);
+          // 真实订单（本地生成）+ 示例订单（用于演示物流时间线）
+          const mine = getStorage('qy_orders', []).filter((o) => o.user === this.user.username);
+          const samples = (typeof ORDERS !== 'undefined') ? ORDERS : [];
+          return [...mine, ...samples];
         },
         cartCount() {
           return getCart().reduce((s, i) => s + i.qty, 0);
@@ -151,6 +154,81 @@
         /* 退出登录 */
         doLogout() {
           logoutUser();
+        },
+
+        /* B5. 查看订单详情：商品明细 + 订单信息 + 物流时间线 */
+        showOrderDetail(order) {
+          const statusText = (typeof ORDER_STATUS_MAP !== 'undefined' && ORDER_STATUS_MAP[order.status])
+            ? ORDER_STATUS_MAP[order.status] : order.status;
+          // 解析订单商品（兼容两种字段：bookId 或 id）
+          const items = (order.items || []).map((it) => {
+            const book = BOOKS.find((b) => b.id === (it.bookId || it.id));
+            return {
+              cover: book ? book.cover : 'assets/images/goods/book-01.svg',
+              title: it.title || (book ? book.title : '图书'),
+              qty: it.qty,
+              price: it.price,
+              subtotal: it.price * it.qty
+            };
+          });
+          const itemsHtml = items.map((it) => `
+            <div class="od-item">
+              <img src="${it.cover}" alt="封面">
+              <div class="od-item-info">
+                <p class="od-title">${it.title}</p>
+                <p class="od-sub">¥${it.price.toFixed(2)} × ${it.qty}</p>
+              </div>
+              <span class="od-subtotal">¥${it.subtotal.toFixed(2)}</span>
+            </div>`).join('');
+
+          const total = order.totalPrice || order.total || 0;
+          const coupon = order.couponDiscount || 0;
+          const discountRow = coupon > 0
+            ? `<p class="discount-row"><span>优惠金额</span><b>-¥${coupon.toFixed(2)}</b></p>` : '';
+
+          // 物流时间线节点：已下单 → 已发货 → 运输中 → 已签收
+          const nodeMap = ['已下单', '已发货', '运输中', '已签收'];
+          const statusIndex = { pending: 0, shipped: 1, transporting: 2, delivered: 3 }[order.status] ?? 0;
+          const timelineHtml = nodeMap.map((label, i) => {
+            const cls = i < statusIndex ? 'tl-done' : (i === statusIndex ? 'tl-current' : '');
+            const icon = i < statusIndex ? '<i class="fa-solid fa-circle-check"></i>' : (i === statusIndex ? '<i class="fa-solid fa-truck-fast"></i>' : '<i class="fa-regular fa-circle"></i>');
+            const desc = i === 0 ? (order.createTime || '订单创建成功')
+              : i === 1 ? '商家已打包发货，快递已揽收'
+              : i === 2 ? '快递正在运输途中，预计 2-3 天送达'
+              : '已签收，感谢您的购买';
+            return `<li class="tl-node ${cls}">
+              <div class="tl-dot">${icon}</div>
+              <div class="tl-body"><p class="tl-label">${label}</p><p class="tl-desc">${desc}</p></div>
+            </li>`;
+          }).join('');
+
+          getElement('.preview-mask')?.remove();
+          const mask = createElement('div', {
+            class: 'preview-mask show',
+            html: `
+              <div class="book-preview-modal" style="width:640px">
+                <button class="preview-close" aria-label="关闭"><i class="fa-solid fa-xmark"></i></button>
+                <div class="od-head">
+                  <h3>订单详情</h3>
+                  <span class="tag tag-orange">${statusText}</span>
+                </div>
+                <div class="od-items">${itemsHtml}</div>
+                <div class="od-info">
+                  <p><span>订单号</span><b>${order.no}</b></p>
+                  <p><span>下单时间</span><b>${order.createTime || order.time || ''}</b></p>
+                  <p><span>收货地址</span><b>${order.address || '南昌大学前湖校区'}</b></p>
+                  <p><span>商品总额</span><b>¥${total.toFixed(2)}</b></p>
+                  ${discountRow}
+                  <p class="od-pay"><span>实付金额</span><b>¥${(total - coupon).toFixed(2)}</b></p>
+                </div>
+                <h4 class="od-tl-title"><i class="fa-solid fa-route"></i> 物流跟踪</h4>
+                <ul class="tl-list">${timelineHtml}</ul>
+              </div>`
+          });
+          document.body.appendChild(mask);
+          const close = () => mask.remove();
+          getElement('.preview-close', mask).addEventListener('click', close);
+          mask.addEventListener('click', (e) => { if (e.target === mask) close(); });
         }
       }
     });

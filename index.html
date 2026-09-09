@@ -91,8 +91,30 @@
       </div>
     </section>
 
+    <!-- ========== 限时秒杀（倒计时 + 横向滚动秒杀书单） ========== -->
+    <section class="seckill-section animate-on-scroll" aria-label="限时秒杀">
+      <div class="container">
+        <div class="seckill-card" id="seckillCard">
+          <div class="seckill-left">
+            <h2><i class="fa-solid fa-bolt"></i> 限时秒杀</h2>
+            <p class="seckill-sub">手慢无 · 整点开抢</p>
+            <div class="seckill-countdown" id="seckillCountdown">
+              <span class="cd-box" data-cd="h">00</span><em>:</em>
+              <span class="cd-box" data-cd="m">00</span><em>:</em>
+              <span class="cd-box" data-cd="s">00</span>
+            </div>
+          </div>
+          <div class="seckill-right">
+            <div class="seckill-track" id="seckillTrack">
+              <!-- 秒杀图书由 index.js 动态渲染 -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ========== 分类导航（Grid 布局） ========== -->
-    <section class="category-section" aria-label="图书分类">
+    <section class="category-section animate-on-scroll" aria-label="图书分类">
       <div class="container">
         <div class="category-grid" id="categoryGrid">
           <!-- 分类卡片由 index.js 动态渲染 -->
@@ -101,7 +123,7 @@
     </section>
 
     <!-- ========== 今日热卖（动态渲染图书卡片） ========== -->
-    <section class="hot-section" aria-label="今日热卖">
+    <section class="hot-section animate-on-scroll" aria-label="今日热卖">
       <div class="container">
         <div class="section-title">
           <div class="title-left"><h2>今日热卖</h2></div>
@@ -114,7 +136,7 @@
     </section>
 
     <!-- ========== 新书上架 + 销量排行（左侧主区 / 右侧 aside） ========== -->
-    <section class="recommend-section" aria-label="新书推荐与销量排行">
+    <section class="recommend-section animate-on-scroll" aria-label="新书推荐与销量排行">
       <div class="container">
         <div class="recommend-layout">
           <div class="recommend-main">
@@ -140,8 +162,20 @@
       </div>
     </section>
 
+    <!-- ========== 编辑推荐书单 ========== -->
+    <section class="picks-section animate-on-scroll" aria-label="编辑推荐">
+      <div class="container">
+        <div class="section-title">
+          <div class="title-left"><h2>编辑推荐书单</h2></div>
+        </div>
+        <div class="picks-grid" id="picksGrid">
+          <!-- 书单卡片由 index.js 动态渲染 -->
+        </div>
+      </div>
+    </section>
+
     <!-- ========== 品牌数据（数字滚动动画） ========== -->
-    <section class="stats-section" aria-label="品牌数据">
+    <section class="stats-section animate-on-scroll" aria-label="品牌数据">
       <div class="container">
         <div class="stats-grid">
           <div class="stat-item">
@@ -165,7 +199,7 @@
     </section>
 
     <!-- ========== 每日一言（Axios 远程 API） ========== -->
-    <section class="quote-section" aria-label="每日一言">
+    <section class="quote-section animate-on-scroll" aria-label="每日一言">
       <div class="container">
         <div class="quote-card">
           <i class="fa-solid fa-quote-left"></i>
