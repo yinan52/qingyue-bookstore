@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="青阅书城图书商城 —— 分类筛选、关键词搜索、多种排序与分页浏览。">
+  <title>图书商城 · 青阅书城</title>
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/page/books.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+  <div class="page-loading" id="pageLoading">
+    <div class="loading-logo">青阅书城</div>
+    <div class="loading-spinner"></div>
+  </div>
+
+  <!-- ========== 公共头部 ========== -->
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="index.html" title="返回首页">
+        <img src="assets/icons/logo.svg" alt="青阅书城 Logo">
+        <div>
+          <div class="logo-text">青阅书城</div>
+          <div class="logo-sub">读万卷书 · 行万里路</div>
+        </div>
+      </a>
+      <nav class="main-nav" aria-label="主导航">
+        <ul>
+          <li><a href="index.html" data-page="index.html">首页</a></li>
+          <li><a href="books.html" data-page="books.html">图书商城</a></li>
+          <li><a href="data.html" data-page="data.html">数据看板</a></li>
+          <li><a href="paint.html" data-page="paint.html">创意画板</a></li>
+          <li><a href="media.html" data-page="media.html">视听馆</a></li>
+          <li><a href="about.html" data-page="about.html">关于我们</a></li>
+        </ul>
+      </nav>
+      <div class="header-tools">
+        <div class="header-search">
+          <input type="search" id="headerSearch" placeholder="搜索图书…" aria-label="站内搜索">
+          <button id="headerSearchBtn" aria-label="搜索"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+        <a class="icon-btn" href="cart.html" aria-label="购物车">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-badge">0</span>
+        </a>
+        <div class="login-area">
+          <a class="btn-login" href="login.html">登录</a>
+          <a class="btn-login btn-login-solid" href="register.html">注册</a>
+        </div>
+        <div class="user-area hidden">
+          <a class="icon-btn" href="user.html" title="个人中心">
+            <img class="user-avatar" src="assets/images/avatar/avatar-default.svg" alt="用户头像">
+          </a>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="展开菜单"><i class="fa-solid fa-bars"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-main">
+    <div class="container">
+
+      <!-- 面包屑导航 -->
+      <nav class="crumbs" aria-label="面包屑">
+        <a href="index.html">首页</a>
+        <span class="sep">/</span>
+        <span class="current">图书商城</span>
+      </nav>
+
+      <div class="shop-layout">
+
+        <!-- ========== 侧边栏：分类 + 搜索历史 ========== -->
+        <aside class="shop-aside" aria-label="筛选与历史">
+          <div class="aside-card">
+            <h3 class="aside-title"><i class="fa-solid fa-layer-group"></i> 图书分类</h3>
+            <ul class="cat-list" id="catList">
+              <!-- 分类列表由 books.js 动态渲染 -->
+            </ul>
+          </div>
+
+          <div class="aside-card">
+            <div class="aside-title-row">
+              <h3 class="aside-title"><i class="fa-solid fa-clock-rotate-left"></i> 搜索历史</h3>
+              <button class="clear-history" id="clearHistoryBtn" title="清空历史"><i class="fa-solid fa-trash-can"></i></button>
+            </div>
+            <ul class="history-list" id="historyList">
+              <!-- 搜索历史由 books.js 渲染 -->
+            </ul>
+          </div>
+
+          <!-- figure + figcaption 语义化配图 -->
+          <figure class="aside-figure">
+            <img src="assets/images/banner/banner-02.jpg" alt="青阅书城实体书店一角">
+            <figcaption>青阅书城 · 前湖店</figcaption>
+          </figure>
+        </aside>
+
+        <!-- ========== 主区：工具栏 + 图书网格 + 分页 ========== -->
+        <section class="shop-main" aria-label="图书列表">
+          <div class="toolbar">
+            <div class="result-info" id="resultInfo"></div>
+            <div class="sort-bar" id="sortBar">
+              <button class="sort-btn active" data-sort="default">综合</button>
+              <button class="sort-btn" data-sort="sales">销量</button>
+              <button class="sort-btn" data-sort="priceAsc">价格↑</button>
+              <button class="sort-btn" data-sort="priceDesc">价格↓</button>
+              <button class="sort-btn" data-sort="rating">评分</button>
+              <button class="sort-btn" data-sort="new">最新</button>
+            </div>
+          </div>
+
+          <!-- 图书网格容器（动态渲染） -->
+          <div class="book-grid" id="bookGrid">
+            <div class="loading-spinner"></div>
+          </div>
+
+          <!-- 空状态 -->
+          <div class="empty-state hidden" id="emptyState">
+            <div class="empty-icon"><i class="fa-solid fa-book-open-reader"></i></div>
+            <p>没有找到相关图书，换个关键词试试吧</p>
+            <button class="btn btn-primary" id="resetBtn">查看全部图书</button>
+          </div>
+
+          <!-- 分页 -->
+          <nav class="pagination" id="pagination" aria-label="分页"></nav>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========== 公共页脚 ========== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo-text">青阅书城</div>
+          <p>青阅书城（QingYue Bookstore）是面向校园师生的数字图书商城，以“读万卷书，行万里路”为理念，汇聚计算机、文学、历史、经济等品类精选好书。</p>
+        </div>
+        <div class="footer-col">
+          <h4>快速导航</h4>
+          <ul>
+            <li><a href="books.html">图书商城</a></li>
+            <li><a href="data.html">数据看板</a></li>
+            <li><a href="paint.html">创意画板</a></li>
+            <li><a href="media.html">视听馆</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>用户服务</h4>
+          <ul>
+            <li><a href="login.html">会员登录</a></li>
+            <li><a href="register.html">新用户注册</a></li>
+            <li><a href="cart.html">购物车</a></li>
+            <li><a href="user.html">个人中心</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>联系我们</h4>
+          <ul>
+            <li><i class="fa-solid fa-envelope"></i> service@qingyue.com</li>
+            <li><i class="fa-solid fa-phone"></i> 0791-8888 6666</li>
+            <li><i class="fa-solid fa-location-dot"></i> 南昌大学前湖校区</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-links">
+          <a href="about.html">关于我们</a>
+          <a href="about.html#contact">联系方式</a>
+          <a href="404.html">帮助中心</a>
+        </div>
+        <p>© <span class="footer-year">2026</span> 青阅书城 QingYue Bookstore · Web前端设计与开发实训大作业</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/dom.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/page/books.js"></script>
+</body>
+</html>

@@ -1,0 +1,701 @@
+/* ==========================================================================
+   detail.css —— 仅作用于 detail.html（图书详情页）
+   ========================================================================== */
+
+/* ---------- 1. 主布局 ---------- */
+.detail-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ---------- 2. 商品信息区 ---------- */
+.goods-panel {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 30px;
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 28px;
+}
+
+.goods-cover {
+  position: relative;
+}
+
+.goods-cover img {
+  width: 100%;
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
+  transition: transform 0.4s ease;
+}
+
+.goods-cover img:hover {
+  transform: scale(1.02);
+}
+
+.goods-info h1 {
+  font-size: 24px;
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+.goods-sub {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.goods-tags {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+/* 评分与销量行 */
+.goods-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 0;
+  border-top: 1px dashed var(--border-color);
+  border-bottom: 1px dashed var(--border-color);
+  margin-bottom: 16px;
+}
+
+.rating-score {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--warning-color);
+}
+
+.rating-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.sales-text {
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--text-placeholder);
+}
+
+/* 价格行 */
+.price-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, #FFF7F0, #FFF0E6);
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+}
+
+.price-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.price-now {
+  color: var(--danger-color);
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.price-now::before {
+  content: "¥";
+  font-size: 16px;
+}
+
+.price-original {
+  font-size: 14px;
+  color: var(--text-placeholder);
+  text-decoration: line-through;
+}
+
+.goods-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 18px;
+}
+
+.goods-meta i {
+  color: var(--primary-color);
+  width: 18px;
+}
+
+/* 数量选择 */
+.buy-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.buy-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.qty-control {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.qty-control button {
+  width: 36px;
+  height: 36px;
+  color: var(--text-secondary);
+  background: #F5F7FA;
+  transition: all 0.25s ease;
+}
+
+.qty-control button:hover {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.qty-control input {
+  width: 52px;
+  height: 36px;
+  border: none;
+  text-align: center;
+  font-size: 15px;
+  -moz-appearance: textfield;
+}
+
+.qty-control input::-webkit-outer-spin-button,
+.qty-control input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.stock-tip {
+  font-size: 12px;
+  color: var(--text-placeholder);
+}
+
+/* 操作按钮 */
+.action-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-buy {
+  background: linear-gradient(135deg, #FF7D00, #F53F3F);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(255, 125, 0, 0.35);
+}
+
+.btn-buy:hover {
+  box-shadow: 0 8px 22px rgba(255, 125, 0, 0.5);
+  transform: translateY(-1px);
+}
+
+/* 收藏按钮激活态 */
+.fav-active {
+  background: rgba(245, 63, 63, 0.08) !important;
+  border-color: var(--danger-color) !important;
+  color: var(--danger-color) !important;
+}
+
+.service-tip {
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--text-placeholder);
+}
+
+.service-tip i {
+  color: var(--success-color);
+  margin-right: 4px;
+}
+
+/* ---------- 3. Tab 面板 ---------- */
+.tab-panel {
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  margin-top: 24px;
+  overflow: hidden;
+}
+
+.tab-head {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 20px;
+}
+
+.tab-btn {
+  padding: 16px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+  color: var(--primary-color);
+}
+
+.tab-btn.active {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+}
+
+.tab-content {
+  display: none;
+  padding: 26px 28px;
+}
+
+.tab-content.active {
+  display: block;
+  animation: tabFade 0.4s ease;
+}
+
+@keyframes tabFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.desc-block {
+  margin-bottom: 28px;
+}
+
+.desc-block h3 {
+  font-size: 17px;
+  margin-bottom: 12px;
+  padding-left: 12px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.desc-block p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-align: justify;
+  text-indent: 2em;
+}
+
+.desc-figure {
+  margin: 22px auto;
+  max-width: 280px;
+  text-align: center;
+}
+
+.desc-figure img {
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-card);
+}
+
+.desc-figure figcaption {
+  font-size: 12px;
+  color: var(--text-placeholder);
+  margin-top: 8px;
+}
+
+/* 参数表格 */
+.params-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.params-table td {
+  padding: 10px 14px;
+  border: 1px solid var(--border-color);
+}
+
+.params-table tr td:first-child {
+  width: 140px;
+  background: #F7F8FA;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* ---------- 4. 评论区 ---------- */
+.comment-form {
+  background: #F7F8FA;
+  border-radius: var(--radius-sm);
+  padding: 18px;
+  margin-bottom: 22px;
+}
+
+.comment-form h3 {
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+.comment-rate {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.star-input i {
+  font-size: 20px;
+  color: #D9DCE1;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.star-input i:hover {
+  transform: scale(1.2);
+}
+
+.star-input i.active {
+  color: var(--warning-color);
+}
+
+.star-hint {
+  font-size: 12px;
+  color: var(--text-placeholder);
+  margin-left: 8px;
+}
+
+.comment-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.comment-form-actions .form-tip {
+  margin: 0;
+}
+
+.comment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.comment-item {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+}
+
+.comment-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.comment-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.comment-user {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.comment-time {
+  font-size: 12px;
+  color: var(--text-placeholder);
+  margin-left: auto;
+}
+
+.comment-stars i {
+  color: var(--warning-color);
+  font-size: 13px;
+}
+
+.comment-content {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 10px;
+}
+
+.comment-foot {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: var(--text-placeholder);
+}
+
+.comment-foot .like-btn {
+  color: var(--text-placeholder);
+  transition: color 0.25s ease;
+}
+
+.comment-foot .like-btn:hover {
+  color: var(--danger-color);
+}
+
+.comment-reply {
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: #F7F8FA;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.comment-reply .reply-user {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+/* ---------- 5. 相关推荐 ---------- */
+.related-section {
+  margin-top: 28px;
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.book-card {
+  position: relative;
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+}
+
+.book-card .card-cover {
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #F2F3F5;
+}
+
+.book-card .card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.book-card:hover .card-cover img {
+  transform: scale(1.06);
+}
+
+.book-card .card-body {
+  padding: 10px 14px 12px;
+}
+
+.book-card .card-title {
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 6px;
+}
+
+.book-card .card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.book-card .card-price {
+  color: var(--danger-color);
+  font-weight: 700;
+}
+
+.book-card .card-rating {
+  font-size: 12px;
+  color: var(--warning-color);
+}
+
+/* ---------- 6. 侧边栏 ---------- */
+.detail-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.aside-card {
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 18px 16px;
+}
+
+.aside-title {
+  font-size: 15px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.aside-title i {
+  color: var(--primary-color);
+}
+
+.mini-rank li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 4px;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: background 0.25s ease;
+}
+
+.mini-rank li:hover {
+  background: rgba(22, 93, 255, 0.05);
+}
+
+.mini-rank .no {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  background: #F2F3F5;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.mini-rank li:nth-child(1) .no,
+.mini-rank li:nth-child(2) .no,
+.mini-rank li:nth-child(3) .no {
+  background: var(--gradient-hot);
+  color: #fff;
+}
+
+.mini-rank .rank-name {
+  flex: 1;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mini-rank .rank-sales {
+  font-size: 11px;
+  color: var(--text-placeholder);
+}
+
+/* 最近浏览 */
+.recent-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recent-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.recent-item img {
+  width: 40px;
+  height: 52px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.recent-item .recent-name {
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* details/summary 折叠面板 */
+.help-details {
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 16px;
+  font-size: 13px;
+}
+
+.help-details summary {
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+  list-style: none;
+}
+
+.help-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.help-details summary i {
+  color: var(--primary-color);
+}
+
+.help-details ul {
+  margin-top: 12px;
+  padding-left: 26px;
+  list-style: disc;
+  color: var(--text-secondary);
+}
+
+.help-details li {
+  margin-bottom: 6px;
+}
+
+/* ---------- 7. 响应式 ---------- */
+@media (max-width: 992px) {
+  .detail-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .goods-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .goods-cover {
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  .book-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .action-row .btn {
+    flex: 1;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .tab-content {
+    padding: 18px 14px;
+  }
+}

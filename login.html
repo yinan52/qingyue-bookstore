@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="青阅书城用户登录 —— 会员登录入口。">
+  <title>会员登录 · 青阅书城</title>
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/page/login.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+  <div class="page-loading" id="pageLoading">
+    <div class="loading-logo">青阅书城</div>
+    <div class="loading-spinner"></div>
+  </div>
+
+  <!-- ========== 公共头部 ========== -->
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="index.html" title="返回首页">
+        <img src="assets/icons/logo.svg" alt="青阅书城 Logo">
+        <div>
+          <div class="logo-text">青阅书城</div>
+          <div class="logo-sub">读万卷书 · 行万里路</div>
+        </div>
+      </a>
+      <nav class="main-nav" aria-label="主导航">
+        <ul>
+          <li><a href="index.html" data-page="index.html">首页</a></li>
+          <li><a href="books.html" data-page="books.html">图书商城</a></li>
+          <li><a href="data.html" data-page="data.html">数据看板</a></li>
+          <li><a href="paint.html" data-page="paint.html">创意画板</a></li>
+          <li><a href="media.html" data-page="media.html">视听馆</a></li>
+          <li><a href="about.html" data-page="about.html">关于我们</a></li>
+        </ul>
+      </nav>
+      <div class="header-tools">
+        <div class="header-search">
+          <input type="search" id="headerSearch" placeholder="搜索图书…" aria-label="站内搜索">
+          <button id="headerSearchBtn" aria-label="搜索"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+        <a class="icon-btn" href="cart.html" aria-label="购物车">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-badge">0</span>
+        </a>
+        <div class="login-area">
+          <a class="btn-login btn-login-solid" href="register.html">注册</a>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="展开菜单"><i class="fa-solid fa-bars"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-main auth-main">
+    <div class="container auth-wrap">
+
+      <!-- 左侧品牌展示区 -->
+      <aside class="auth-banner" aria-label="品牌展示">
+        <div class="auth-banner-inner">
+          <div class="auth-logo">
+            <img src="assets/icons/logo.svg" alt="青阅书城 Logo">
+            <span>青阅书城</span>
+          </div>
+          <h2>读万卷书<br>行万里路</h2>
+          <p>登录后享受收藏、购物车、订单管理等完整服务</p>
+          <ul>
+            <li><i class="fa-solid fa-heart"></i> 一键收藏心仪好书</li>
+            <li><i class="fa-solid fa-cart-shopping"></i> 购物车跨设备同步</li>
+            <li><i class="fa-solid fa-chart-line"></i> 个人阅读数据看板</li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- 右侧登录表单 -->
+      <section class="auth-form-wrap" aria-label="登录表单">
+        <div class="form-card">
+          <h1 class="form-title">欢迎回来</h1>
+          <p class="form-subtitle">登录青阅书城，开启阅读之旅</p>
+
+          <form id="loginForm" novalidate>
+            <div class="form-item">
+              <label for="loginUsername"><span class="required">*</span>用户名</label>
+              <input type="text" id="loginUsername" class="form-control" placeholder="请输入用户名" autocomplete="username">
+              <div class="form-tip" id="usernameTip"></div>
+            </div>
+
+            <div class="form-item">
+              <label for="loginPassword"><span class="required">*</span>密码</label>
+              <div class="input-wrap">
+                <input type="password" id="loginPassword" class="form-control" placeholder="请输入密码" autocomplete="current-password">
+                <i class="fa-regular fa-eye-slash" id="pwdEye" title="显示/隐藏密码"></i>
+              </div>
+              <div class="form-tip" id="passwordTip"></div>
+            </div>
+
+            <div class="form-item">
+              <label for="loginCaptcha"><span class="required">*</span>验证码</label>
+              <div class="captcha-row">
+                <input type="text" id="loginCaptcha" class="form-control" placeholder="输入右侧验证码" maxlength="4">
+                <canvas class="captcha-canvas" id="captchaCanvas" width="120" height="42" title="点击刷新验证码"></canvas>
+              </div>
+              <div class="form-tip" id="captchaTip"></div>
+            </div>
+
+            <div class="form-extra">
+              <label class="checkbox-label">
+                <input type="checkbox" id="rememberMe">
+                <span class="mini-check"></span>
+                记住用户名
+              </label>
+              <a href="404.html">忘记密码？</a>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary btn-lg btn-block">
+                登 录
+              </button>
+            </div>
+
+            <p class="form-switch">还没有账号？<a href="register.html">立即注册 →</a></p>
+          </form>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ========== 公共页脚 ========== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none;">
+        <p>© <span class="footer-year">2026</span> 青阅书城 QingYue Bookstore · Web前端设计与开发实训大作业</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/dom.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/page/login.js"></script>
+</body>
+</html>

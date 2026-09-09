@@ -1,0 +1,332 @@
+/* ==========================================================================
+   books.css —— 仅作用于 books.html（图书列表 / 搜索页）
+   ========================================================================== */
+
+/* ---------- 1. 主布局：侧边栏 + 主区 ---------- */
+.shop-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ---------- 2. 侧边栏 ---------- */
+.shop-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.aside-card {
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 18px 16px;
+}
+
+.aside-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.aside-title {
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.aside-title i {
+  color: var(--primary-color);
+}
+
+.clear-history {
+  color: var(--text-placeholder);
+  font-size: 13px;
+  padding: 4px;
+  margin-bottom: 10px;
+  transition: color 0.3s ease;
+}
+
+.clear-history:hover {
+  color: var(--danger-color);
+}
+
+/* 分类列表 */
+.cat-list li {
+  margin-bottom: 4px;
+}
+
+.cat-list li a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 14px;
+  transition: all 0.25s ease;
+}
+
+.cat-list li a:hover {
+  background: rgba(22, 93, 255, 0.06);
+  color: var(--primary-color);
+}
+
+.cat-list li a.active {
+  background: var(--gradient-brand);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(22, 93, 255, 0.28);
+}
+
+.cat-list li a .count {
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+/* 搜索历史 */
+.history-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text-secondary);
+  transition: background 0.25s ease;
+}
+
+.history-list li:hover {
+  background: rgba(22, 93, 255, 0.05);
+}
+
+.history-list li .del-one {
+  visibility: hidden;
+  color: var(--text-placeholder);
+  font-size: 12px;
+}
+
+.history-list li:hover .del-one {
+  visibility: visible;
+}
+
+.history-list li .del-one:hover {
+  color: var(--danger-color);
+}
+
+.history-empty {
+  font-size: 12px;
+  color: var(--text-placeholder);
+  padding: 8px 10px;
+}
+
+/* aside 配图（figure + figcaption） */
+.aside-figure {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  position: relative;
+}
+
+.aside-figure img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.aside-figure figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 22px 12px 8px;
+  font-size: 12px;
+  color: #fff;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.72));
+}
+
+/* ---------- 3. 工具栏 ---------- */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 12px 18px;
+  margin-bottom: 18px;
+}
+
+.result-info {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.result-info strong {
+  color: var(--primary-color);
+  font-size: 16px;
+  margin: 0 2px;
+}
+
+.sort-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.sort-btn {
+  padding: 6px 14px;
+  border-radius: 16px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  background: #F5F7FA;
+  transition: all 0.25s ease;
+}
+
+.sort-btn:hover {
+  color: var(--primary-color);
+  background: rgba(22, 93, 255, 0.08);
+}
+
+.sort-btn.active {
+  background: var(--gradient-brand);
+  color: #fff;
+  box-shadow: 0 3px 8px rgba(22, 93, 255, 0.3);
+}
+
+/* ---------- 4. 图书网格 ---------- */
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  min-height: 260px;
+}
+
+.book-card {
+  position: relative;
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-hover);
+}
+
+.book-card .card-cover {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #F2F3F5;
+}
+
+.book-card .card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.book-card:hover .card-cover img {
+  transform: scale(1.06);
+}
+
+.book-card .card-body {
+  padding: 12px 14px 14px;
+}
+
+.book-card .card-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.book-card .card-author {
+  font-size: 12px;
+  color: var(--text-placeholder);
+  margin-bottom: 8px;
+}
+
+.book-card .card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.book-card .card-price {
+  color: var(--danger-color);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.book-card .card-price .rmb {
+  font-size: 12px;
+}
+
+.book-card .card-rating {
+  font-size: 12px;
+  color: var(--warning-color);
+}
+
+/* 分类标签 */
+.book-card .card-tags {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.book-card .card-tags .tag {
+  font-size: 11px;
+  padding: 1px 8px;
+}
+
+/* ---------- 5. 响应式 ---------- */
+@media (max-width: 992px) {
+  .shop-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .shop-aside {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .shop-aside .aside-card {
+    flex: 1;
+    min-width: 220px;
+  }
+
+  .aside-figure {
+    display: none;
+  }
+
+  .book-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .book-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

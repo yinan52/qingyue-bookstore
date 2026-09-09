@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="页面不存在 - 青阅书城。">
+  <title>页面未找到 · 青阅书城</title>
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/page/error.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+  <div class="page-loading" id="pageLoading">
+    <div class="loading-logo">青阅书城</div>
+    <div class="loading-spinner"></div>
+  </div>
+
+  <!-- ========== 公共头部 ========== -->
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="index.html" title="返回首页">
+        <img src="assets/icons/logo.svg" alt="青阅书城 Logo">
+        <div>
+          <div class="logo-text">青阅书城</div>
+          <div class="logo-sub">读万卷书 · 行万里路</div>
+        </div>
+      </a>
+      <nav class="main-nav" aria-label="主导航">
+        <ul>
+          <li><a href="index.html" data-page="index.html">首页</a></li>
+          <li><a href="books.html" data-page="books.html">图书商城</a></li>
+          <li><a href="data.html" data-page="data.html">数据看板</a></li>
+          <li><a href="paint.html" data-page="paint.html">创意画板</a></li>
+          <li><a href="media.html" data-page="media.html">视听馆</a></li>
+          <li><a href="about.html" data-page="about.html">关于我们</a></li>
+        </ul>
+      </nav>
+      <div class="header-tools">
+        <div class="header-search">
+          <input type="search" id="headerSearch" placeholder="搜索图书…" aria-label="站内搜索">
+          <button id="headerSearchBtn" aria-label="搜索"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+        <a class="icon-btn" href="cart.html" aria-label="购物车">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-badge">0</span>
+        </a>
+        <div class="login-area">
+          <a class="btn-login" href="login.html">登录</a>
+          <a class="btn-login btn-login-solid" href="register.html">注册</a>
+        </div>
+        <div class="user-area hidden">
+          <a class="icon-btn" href="user.html" title="个人中心">
+            <img class="user-avatar" src="assets/images/avatar/avatar-default.svg" alt="用户头像">
+          </a>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="展开菜单"><i class="fa-solid fa-bars"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-main error-main">
+    <section class="error-box" aria-label="404 错误提示">
+      <div class="error-code">4<i class="fa-solid fa-book-open"></i>4</div>
+      <h1>这本书好像被借走了</h1>
+      <p>您访问的页面不存在或已被移动，回到首页继续阅读之旅吧。</p>
+      <div class="error-actions">
+        <a class="btn btn-primary btn-lg" href="index.html"><i class="fa-solid fa-house"></i> 返回首页</a>
+        <a class="btn btn-outline btn-lg" href="books.html"><i class="fa-solid fa-magnifying-glass"></i> 去逛书城</a>
+      </div>
+      <p class="error-hint" id="countdown">5 秒后自动返回首页…</p>
+    </section>
+  </main>
+
+  <!-- ========== 公共页脚 ========== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none;">
+        <p>© <span class="footer-year">2026</span> 青阅书城 QingYue Bookstore · Web前端设计与开发实训大作业</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/dom.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/page/error.js"></script>
+</body>
+</html>

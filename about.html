@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="关于青阅书城 —— 品牌故事、发展历程、团队介绍、联系我们。">
+  <title>关于我们 · 青阅书城</title>
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/page/about.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+  <div class="page-loading" id="pageLoading">
+    <div class="loading-logo">青阅书城</div>
+    <div class="loading-spinner"></div>
+  </div>
+
+  <!-- ========== 公共头部 ========== -->
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="index.html" title="返回首页">
+        <img src="assets/icons/logo.svg" alt="青阅书城 Logo">
+        <div>
+          <div class="logo-text">青阅书城</div>
+          <div class="logo-sub">读万卷书 · 行万里路</div>
+        </div>
+      </a>
+      <nav class="main-nav" aria-label="主导航">
+        <ul>
+          <li><a href="index.html" data-page="index.html">首页</a></li>
+          <li><a href="books.html" data-page="books.html">图书商城</a></li>
+          <li><a href="data.html" data-page="data.html">数据看板</a></li>
+          <li><a href="paint.html" data-page="paint.html">创意画板</a></li>
+          <li><a href="media.html" data-page="media.html">视听馆</a></li>
+          <li><a href="about.html" data-page="about.html">关于我们</a></li>
+        </ul>
+      </nav>
+      <div class="header-tools">
+        <div class="header-search">
+          <input type="search" id="headerSearch" placeholder="搜索图书…" aria-label="站内搜索">
+          <button id="headerSearchBtn" aria-label="搜索"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+        <a class="icon-btn" href="cart.html" aria-label="购物车">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-badge">0</span>
+        </a>
+        <div class="login-area">
+          <a class="btn-login" href="login.html">登录</a>
+          <a class="btn-login btn-login-solid" href="register.html">注册</a>
+        </div>
+        <div class="user-area hidden">
+          <a class="icon-btn" href="user.html" title="个人中心">
+            <img class="user-avatar" src="assets/images/avatar/avatar-default.svg" alt="用户头像">
+          </a>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="展开菜单"><i class="fa-solid fa-bars"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-main">
+    <div class="container">
+
+      <nav class="crumbs" aria-label="面包屑">
+        <a href="index.html">首页</a>
+        <span class="sep">/</span>
+        <span class="current">关于我们</span>
+      </nav>
+
+      <!-- ========== 品牌故事（article） ========== -->
+      <section class="story-section" aria-label="品牌故事">
+        <article class="story-card">
+          <div class="story-text">
+            <h1>关于青阅书城</h1>
+            <p class="story-slogan">读万卷书，行万里路。</p>
+            <p>青阅书城（QingYue Bookstore）诞生于 2026 年校园实训课堂，是一个集图书商城、数据可视化、创意画板与视听体验于一体的数字阅读服务平台。我们相信，每一本好书都是一扇通往新世界的门。</p>
+            <p>从“结构-样式-行为”分离的工程化开发，到 Vue3 响应式组件、Element Plus 组件库、ECharts 数据可视化与 Axios 远程 API 的融合应用，青阅书城不仅是一个作品，更是一次对 Web 前端全栈能力的完整实践。</p>
+            <div class="story-stats">
+              <div><strong>16</strong><span>精选书目</span></div>
+              <div><strong>12</strong><span>功能页面</span></div>
+              <div><strong>11</strong><span>技术模块</span></div>
+              <div><strong>3</strong><span>远程API</span></div>
+            </div>
+          </div>
+          <figure class="story-figure">
+            <img src="assets/images/about/about-store.jpg" alt="青阅书城实体书店室内环境">
+            <figcaption>青阅书城 · 前湖店一隅</figcaption>
+          </figure>
+        </article>
+      </section>
+
+      <!-- ========== 发展历程（时间线） ========== -->
+      <section class="timeline-section" aria-label="发展历程">
+        <div class="section-title">
+          <div class="title-left"><h2>发展历程</h2></div>
+        </div>
+        <ol class="timeline">
+          <li class="timeline-item">
+            <span class="tl-dot"></span>
+            <time class="tl-time">09-07</time>
+            <div class="tl-card">
+              <h3>需求分析</h3>
+              <p>明确项目主题与功能范围，梳理 HTML5/CSS3/JavaScript 技术要点覆盖矩阵。</p>
+            </div>
+          </li>
+          <li class="timeline-item">
+            <span class="tl-dot"></span>
+            <time class="tl-time">09-10</time>
+            <div class="tl-card">
+              <h3>工程搭建</h3>
+              <p>按开发规范建立模块化目录结构，完成基础样式、公共组件与工具函数库。</p>
+            </div>
+          </li>
+          <li class="timeline-item">
+            <span class="tl-dot"></span>
+            <time class="tl-time">09-14</time>
+            <div class="tl-card">
+              <h3>核心功能开发</h3>
+              <p>完成首页、商城、详情、购物车等核心页面，集成本地存储与动态渲染。</p>
+            </div>
+          </li>
+          <li class="timeline-item">
+            <span class="tl-dot"></span>
+            <time class="tl-time">09-17</time>
+            <div class="tl-card">
+              <h3>框架与可视化</h3>
+              <p>集成 Vue3、Element Plus、ECharts、Axios，实现数据看板与多媒体体验。</p>
+            </div>
+          </li>
+          <li class="timeline-item">
+            <span class="tl-dot"></span>
+            <time class="tl-time">09-20</time>
+            <div class="tl-card">
+              <h3>测试与部署</h3>
+              <p>完成全站功能测试、浏览器兼容性验证与线上部署，撰写报告并交付。</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <!-- ========== 团队介绍 ========== -->
+      <section class="team-section" aria-label="团队介绍">
+        <div class="section-title">
+          <div class="title-left"><h2>关于开发</h2></div>
+        </div>
+        <div class="team-grid">
+          <div class="team-card">
+            <div class="team-avatar"><img src="assets/images/avatar/avatar-default.svg" alt="开发者头像"></div>
+            <h3>开发者</h3>
+            <p class="team-role">全栈前端 / 独立开发</p>
+            <p class="team-desc">一人一题，独立完成需求分析、系统设计、编码实现、测试优化与文档撰写全流程。</p>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar"><img src="assets/images/avatar/avatar-01.svg" alt="指导老师头像"></div>
+            <h3>指导老师</h3>
+            <p class="team-role">欧阳皓 / 揭敏 副教授</p>
+            <p class="team-desc">负责课程教学与实训指导，把关项目选题、技术规范与评分答辩。</p>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar"><img src="assets/images/avatar/avatar-02.svg" alt="技术栈图标"></div>
+            <h3>技术栈</h3>
+            <p class="team-role">HTML5 · CSS3 · JS</p>
+            <p class="team-desc">Vue3 · Element Plus · ECharts · Axios · Canvas · Web Audio API</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== FAQ（details/summary 折叠面板） ========== -->
+      <section class="faq-section" aria-label="常见问题">
+        <div class="section-title">
+          <div class="title-left"><h2>常见问题 FAQ</h2></div>
+        </div>
+        <div class="faq-list">
+          <details class="faq-item" open>
+            <summary>图书数据存在哪里？刷新会丢失吗？</summary>
+            <p>所有图书数据以 JavaScript 对象内置在 js/data.js 中，购物车、收藏、浏览记录、订单与用户数据通过 localStorage 持久化保存，刷新页面不会丢失。</p>
+          </details>
+          <details class="faq-item">
+            <summary>为什么需要登录才能收藏和下单？</summary>
+            <p>收藏与订单与用户账号绑定，登录后可跨页面、跨会话查看自己的收藏夹与订单记录，实现“存储→读取→修改→删除”的完整数据闭环。</p>
+          </details>
+          <details class="faq-item">
+            <summary>网站支持移动端访问吗？</summary>
+            <p>支持。全站采用 Flexbox 与 Grid 响应式布局，并针对 992px / 640px 断点优化导航折叠、卡片排布与表单控件，手机、平板均可正常浏览。</p>
+          </details>
+          <details class="faq-item">
+            <summary>第三方库全部离线可用吗？</summary>
+            <p>Vue3、Element Plus、ECharts、Axios、Font Awesome 通过 CDN 引入，需要联网加载；核心业务逻辑全部为原生 HTML/CSS/JavaScript 实现，页面结构离线可访问。</p>
+          </details>
+        </div>
+      </section>
+
+      <!-- ========== 联系我们 ========== -->
+      <section class="contact-section" id="contact" aria-label="联系我们">
+        <div class="section-title">
+          <div class="title-left"><h2>联系我们</h2></div>
+        </div>
+        <div class="contact-layout">
+          <form class="contact-form form-card" id="contactForm" novalidate>
+            <div class="form-row">
+              <div class="form-item">
+                <label for="contactName"><span class="required">*</span>姓名</label>
+                <input type="text" id="contactName" class="form-control" placeholder="您的称呼">
+                <div class="form-tip" id="contactNameTip"></div>
+              </div>
+              <div class="form-item">
+                <label for="contactEmail"><span class="required">*</span>邮箱</label>
+                <input type="email" id="contactEmail" class="form-control" placeholder="用于回复您的邮箱">
+                <div class="form-tip" id="contactEmailTip"></div>
+              </div>
+            </div>
+            <div class="form-item">
+              <label for="contactType">咨询类型</label>
+              <select id="contactType" class="form-control">
+                <option value="order">订单问题</option>
+                <option value="book">图书建议</option>
+                <option value="coop">商务合作</option>
+                <option value="other">其他</option>
+              </select>
+            </div>
+            <div class="form-item">
+              <label for="contactMessage"><span class="required">*</span>留言内容</label>
+              <textarea id="contactMessage" class="form-control" rows="4" placeholder="请描述您的需求或建议（10 字以上）"></textarea>
+              <div class="form-tip" id="contactMessageTip"></div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block">发送留言</button>
+          </form>
+
+          <div class="contact-info">
+            <div class="info-card">
+              <h3>联系方式</h3>
+              <p><i class="fa-solid fa-location-dot"></i> 江西省南昌市红谷滩区学府大道 999 号</p>
+              <p><i class="fa-solid fa-envelope"></i> service@qingyue.com</p>
+              <p><i class="fa-solid fa-phone"></i> 0791-8888 6666</p>
+              <p><i class="fa-solid fa-clock"></i> 周一至周日 9:00 - 21:00</p>
+            </div>
+            <div class="info-card">
+              <h3>当前网络信息（Axios 远程 API）</h3>
+              <p><i class="fa-solid fa-network-wired"></i> 公网 IP：<span id="myIp">获取中…</span></p>
+              <p class="ip-tip">数据来源：ipify.org 免费 API</p>
+            </div>
+            <div class="info-card quote-info">
+              <h3>今日一言（Axios 远程 API）</h3>
+              <p class="about-quote" id="aboutQuote">加载中…</p>
+              <p class="ip-tip">数据来源：v1.hitokoto.cn 免费 API</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ========== 公共页脚 ========== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo-text">青阅书城</div>
+          <p>青阅书城（QingYue Bookstore）是面向校园师生的数字图书商城，以“读万卷书，行万里路”为理念，汇聚计算机、文学、历史、经济等品类精选好书。</p>
+        </div>
+        <div class="footer-col">
+          <h4>快速导航</h4>
+          <ul>
+            <li><a href="books.html">图书商城</a></li>
+            <li><a href="data.html">数据看板</a></li>
+            <li><a href="paint.html">创意画板</a></li>
+            <li><a href="media.html">视听馆</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>用户服务</h4>
+          <ul>
+            <li><a href="login.html">会员登录</a></li>
+            <li><a href="register.html">新用户注册</a></li>
+            <li><a href="cart.html">购物车</a></li>
+            <li><a href="user.html">个人中心</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>联系我们</h4>
+          <ul>
+            <li><i class="fa-solid fa-envelope"></i> service@qingyue.com</li>
+            <li><i class="fa-solid fa-phone"></i> 0791-8888 6666</li>
+            <li><i class="fa-solid fa-location-dot"></i> 南昌大学前湖校区</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-links">
+          <a href="about.html">关于我们</a>
+          <a href="about.html#contact">联系方式</a>
+          <a href="404.html">帮助中心</a>
+        </div>
+        <p>© <span class="footer-year">2026</span> 青阅书城 QingYue Bookstore · Web前端设计与开发实训大作业</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.7.2/dist/axios.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/dom.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/page/about.js"></script>
+</body>
+</html>

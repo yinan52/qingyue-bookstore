@@ -1,0 +1,196 @@
+/* ==========================================================================
+   paint.css —— 仅作用于 paint.html（创意画板页）
+   ========================================================================== */
+
+.page-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-title i {
+  color: var(--primary-color);
+}
+
+.paint-layout {
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+/* ---------- 1. 工具栏 ---------- */
+.paint-tools {
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: sticky;
+  top: calc(var(--header-height) + 16px);
+}
+
+.tool-group h3 {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tool-group h3 span {
+  color: var(--primary-color);
+  font-size: 12px;
+}
+
+.tool-btns {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+
+.tool-btn {
+  aspect-ratio: 1;
+  border-radius: 10px;
+  background: #F5F7FA;
+  color: var(--text-secondary);
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+}
+
+.tool-btn:hover {
+  background: rgba(22, 93, 255, 0.1);
+  color: var(--primary-color);
+}
+
+.tool-btn.active {
+  background: var(--gradient-brand);
+  color: #fff;
+  box-shadow: 0 3px 8px rgba(22, 93, 255, 0.3);
+}
+
+/* 调色板 */
+.color-palette {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.color-dot {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 1.5px var(--border-color);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.color-dot:hover {
+  transform: scale(1.12);
+}
+
+.color-dot.active {
+  box-shadow: 0 0 0 2px var(--primary-color);
+  transform: scale(1.12);
+}
+
+.custom-color {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.custom-color input {
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+.custom-color i {
+  font-size: 16px;
+  color: var(--primary-color);
+}
+
+/* 笔刷大小滑杆 */
+#brushSize {
+  width: 100%;
+  accent-color: var(--primary-color);
+  cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.actions .btn {
+  width: 100%;
+}
+
+/* ---------- 2. 画布区 ---------- */
+.paint-stage {
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 18px;
+}
+
+.stage-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text-placeholder);
+  margin-bottom: 14px;
+}
+
+.canvas-wrap {
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: #fff;
+  transition: border-color 0.3s ease;
+}
+
+.canvas-wrap:hover,
+.canvas-wrap.drawing {
+  border-color: var(--primary-light);
+}
+
+#paintCanvas {
+  display: block;
+  width: 100%;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+/* ---------- 3. 响应式 ---------- */
+@media (max-width: 992px) {
+  .paint-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .paint-tools {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .tool-group {
+    flex: 1;
+    min-width: 140px;
+  }
+}

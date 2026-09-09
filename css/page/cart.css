@@ -1,0 +1,379 @@
+/* ==========================================================================
+   cart.css —— 仅作用于 cart.html（购物车页）
+   ========================================================================== */
+
+.page-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-title i {
+  color: var(--primary-color);
+}
+
+/* ---------- 1. 购物车表格 ---------- */
+.cart-table {
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.cart-thead,
+.cart-row {
+  display: grid;
+  grid-template-columns: 90px 1fr 120px 160px 120px 70px;
+  align-items: center;
+  padding: 14px 20px;
+  gap: 10px;
+}
+
+.cart-thead {
+  background: #F7F8FA;
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.cart-row {
+  border-top: 1px solid #F2F3F5;
+  font-size: 14px;
+  transition: background 0.25s ease;
+}
+
+.cart-row:hover {
+  background: rgba(22, 93, 255, 0.02);
+}
+
+/* 复选框 */
+.checkbox-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.checkbox-cell input[type="checkbox"] {
+  display: none;
+}
+
+.custom-check {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #C9CDD4;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.checkbox-cell input:checked + .custom-check {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.checkbox-cell input:checked + .custom-check::after {
+  content: "";
+  width: 5px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg) translate(-1px, -1px);
+}
+
+/* 图书信息单元格 */
+.cell-book {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.cell-book img {
+  width: 58px;
+  height: 78px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.cell-book-info {
+  min-width: 0;
+}
+
+.cell-title {
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.25s ease;
+}
+
+.cell-title:hover {
+  color: var(--primary-color);
+}
+
+.cell-author {
+  font-size: 12px;
+  color: var(--text-placeholder);
+  margin: 4px 0 6px;
+}
+
+.cell-price {
+  color: var(--text-secondary);
+}
+
+.cell-subtotal {
+  color: var(--danger-color);
+  font-weight: 700;
+  font-size: 15px;
+}
+
+/* 数量控制 */
+.cell-qty {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  width: fit-content;
+}
+
+.cell-qty button {
+  width: 30px;
+  height: 30px;
+  color: var(--text-secondary);
+  background: #F5F7FA;
+  transition: all 0.2s ease;
+}
+
+.cell-qty button:hover {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.cell-qty input {
+  width: 40px;
+  height: 30px;
+  border: none;
+  text-align: center;
+  font-size: 13px;
+  -moz-appearance: textfield;
+}
+
+.cell-qty input::-webkit-outer-spin-button,
+.cell-qty input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+/* 删除按钮 */
+.cell-del {
+  color: var(--text-placeholder);
+  font-size: 16px;
+  justify-self: center;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.cell-del:hover {
+  color: var(--danger-color);
+  transform: scale(1.15);
+}
+
+/* ---------- 2. 结算栏 ---------- */
+.cart-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 16px 20px;
+  margin-top: 18px;
+  position: sticky;
+  bottom: 16px;
+  z-index: 10;
+}
+
+.clear-all-btn {
+  color: var(--text-placeholder);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  transition: all 0.25s ease;
+}
+
+.clear-all-btn:hover {
+  color: var(--danger-color);
+  background: rgba(245, 63, 63, 0.06);
+}
+
+.settle-box {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.settle-info {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.settle-info strong {
+  color: var(--primary-color);
+}
+
+.settle-total {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.settle-total strong {
+  color: var(--danger-color);
+  font-size: 24px;
+  margin: 0 4px;
+}
+
+/* ---------- 3. 空购物车 ---------- */
+.cart-empty {
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  margin-bottom: 10px;
+}
+
+/* ---------- 4. 猜你喜欢 ---------- */
+.recommend-section {
+  margin-top: 34px;
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.book-card {
+  position: relative;
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+}
+
+.book-card .card-cover {
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #F2F3F5;
+}
+
+.book-card .card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.book-card:hover .card-cover img {
+  transform: scale(1.06);
+}
+
+.book-card .card-body {
+  padding: 10px 14px 12px;
+}
+
+.book-card .card-title {
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 6px;
+}
+
+.book-card .card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.book-card .card-price {
+  color: var(--danger-color);
+  font-weight: 700;
+}
+
+.book-card .card-rating {
+  font-size: 12px;
+  color: var(--warning-color);
+}
+
+/* ---------- 5. 响应式 ---------- */
+@media (max-width: 992px) {
+  .cart-thead {
+    display: none;
+  }
+
+  .cart-row {
+    grid-template-columns: 40px 1fr auto;
+    grid-template-areas:
+      "check info info"
+      "check qty subtotal"
+      "check del del";
+    gap: 10px;
+    padding: 16px;
+  }
+
+  .cart-row .checkbox-cell { grid-area: check; }
+  .cart-row .cell-book { grid-area: info; }
+  .cart-row .cell-qty { grid-area: qty; }
+  .cart-row .cell-subtotal { grid-area: subtotal; justify-self: end; }
+  .cart-row .cell-del { grid-area: del; justify-self: start; }
+  .cart-row .cell-price { display: none; }
+
+  .cart-footer {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .settle-box {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .book-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .settle-box {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .settle-box .btn {
+    width: 100%;
+  }
+}

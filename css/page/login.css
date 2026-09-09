@@ -1,0 +1,177 @@
+/* ==========================================================================
+   login.css —— 仅作用于 login.html / register.html（认证页共用）
+   ========================================================================== */
+
+.auth-main {
+  display: flex;
+  align-items: center;
+  padding: 40px 0 60px;
+}
+
+.auth-wrap {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(22, 93, 255, 0.12);
+  background: #fff;
+  max-width: 960px;
+}
+
+/* ---------- 1. 左侧品牌区 ---------- */
+.auth-banner {
+  background: linear-gradient(160deg, #0F2027 0%, #203A43 55%, #2C5364 100%);
+  color: #fff;
+  padding: 48px 42px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 背景装饰圆（伪元素） */
+.auth-banner::before {
+  content: "";
+  position: absolute;
+  right: -70px;
+  top: -70px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.auth-banner::after {
+  content: "";
+  position: absolute;
+  left: -50px;
+  bottom: -50px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.auth-banner-inner {
+  position: relative;
+  z-index: 2;
+}
+
+.auth-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 44px;
+}
+
+.auth-logo img {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+}
+
+.auth-logo span {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.auth-banner h2 {
+  color: #fff;
+  font-size: 30px;
+  line-height: 1.6;
+  letter-spacing: 3px;
+  margin-bottom: 16px;
+}
+
+.auth-banner p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+
+.auth-banner ul {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.auth-banner ul li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.auth-banner ul li i {
+  color: #6EE7E7;
+}
+
+/* ---------- 2. 右侧表单区 ---------- */
+.auth-form-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 44px 48px;
+}
+
+.auth-form-wrap .form-card {
+  width: 100%;
+  max-width: 380px;
+  box-shadow: none;
+  padding: 0;
+}
+
+/* 记住我小方框 */
+.mini-check {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #C9CDD4;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+}
+
+.checkbox-label input {
+  display: none;
+}
+
+.checkbox-label input:checked + .mini-check {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.checkbox-label input:checked + .mini-check::after {
+  content: "";
+  width: 4px;
+  height: 8px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg) translate(-1px, -1px);
+}
+
+/* ---------- 3. 响应式 ---------- */
+@media (max-width: 768px) {
+  .auth-wrap {
+    grid-template-columns: 1fr;
+    max-width: 460px;
+  }
+
+  .auth-banner {
+    padding: 30px 28px;
+  }
+
+  .auth-banner h2 {
+    font-size: 24px;
+  }
+
+  .auth-logo {
+    margin-bottom: 24px;
+  }
+
+  .auth-form-wrap {
+    padding: 30px 24px;
+  }
+}

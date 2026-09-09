@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="青阅书城购物车 —— 管理已选图书，支持全选、数量增减、删除与结算。">
+  <title>我的购物车 · 青阅书城</title>
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/page/cart.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+  <div class="page-loading" id="pageLoading">
+    <div class="loading-logo">青阅书城</div>
+    <div class="loading-spinner"></div>
+  </div>
+
+  <!-- ========== 公共头部 ========== -->
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="index.html" title="返回首页">
+        <img src="assets/icons/logo.svg" alt="青阅书城 Logo">
+        <div>
+          <div class="logo-text">青阅书城</div>
+          <div class="logo-sub">读万卷书 · 行万里路</div>
+        </div>
+      </a>
+      <nav class="main-nav" aria-label="主导航">
+        <ul>
+          <li><a href="index.html" data-page="index.html">首页</a></li>
+          <li><a href="books.html" data-page="books.html">图书商城</a></li>
+          <li><a href="data.html" data-page="data.html">数据看板</a></li>
+          <li><a href="paint.html" data-page="paint.html">创意画板</a></li>
+          <li><a href="media.html" data-page="media.html">视听馆</a></li>
+          <li><a href="about.html" data-page="about.html">关于我们</a></li>
+        </ul>
+      </nav>
+      <div class="header-tools">
+        <div class="header-search">
+          <input type="search" id="headerSearch" placeholder="搜索图书…" aria-label="站内搜索">
+          <button id="headerSearchBtn" aria-label="搜索"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+        <a class="icon-btn" href="cart.html" aria-label="购物车">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-badge">0</span>
+        </a>
+        <div class="login-area">
+          <a class="btn-login" href="login.html">登录</a>
+          <a class="btn-login btn-login-solid" href="register.html">注册</a>
+        </div>
+        <div class="user-area hidden">
+          <a class="icon-btn" href="user.html" title="个人中心">
+            <img class="user-avatar" src="assets/images/avatar/avatar-default.svg" alt="用户头像">
+          </a>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="展开菜单"><i class="fa-solid fa-bars"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-main">
+    <div class="container">
+
+      <nav class="crumbs" aria-label="面包屑">
+        <a href="index.html">首页</a>
+        <span class="sep">/</span>
+        <span class="current">购物车</span>
+      </nav>
+
+      <h1 class="page-title"><i class="fa-solid fa-cart-shopping"></i> 我的购物车</h1>
+
+      <!-- ========== Vue3 响应式购物车应用 ========== -->
+      <div id="cartApp">
+
+        <!-- 购物车有商品时 -->
+        <div v-if="cartItems.length > 0">
+          <div class="cart-table">
+            <div class="cart-thead">
+              <label class="checkbox-cell">
+                <input type="checkbox" :checked="allChecked" @change="toggleAll">
+                <span class="custom-check"></span>
+                全选
+              </label>
+              <span class="head-book">图书信息</span>
+              <span class="head-price">单价</span>
+              <span class="head-qty">数量</span>
+              <span class="head-subtotal">小计</span>
+              <span class="head-op">操作</span>
+            </div>
+
+            <div class="cart-row" v-for="item in cartItems" :key="item.id">
+              <label class="checkbox-cell">
+                <input type="checkbox" v-model="item.checked" @change="saveCartData">
+                <span class="custom-check"></span>
+              </label>
+              <div class="cell-book">
+                <img :src="item.cover" :alt="'《' + item.title + '》封面'">
+                <div class="cell-book-info">
+                  <p class="cell-title" @click="goDetail(item.id)">{{ item.title }}</p>
+                  <p class="cell-author">{{ item.author }} 著</p>
+                  <span class="tag tag-blue">{{ item.categoryName }}</span>
+                </div>
+              </div>
+              <span class="cell-price">¥{{ item.price.toFixed(2) }}</span>
+              <div class="cell-qty">
+                <button @click="changeQty(item, -1)" aria-label="减少"><i class="fa-solid fa-minus"></i></button>
+                <input type="number" :value="item.qty" @change="setQty(item, $event)">
+                <button @click="changeQty(item, 1)" aria-label="增加"><i class="fa-solid fa-plus"></i></button>
+              </div>
+              <span class="cell-subtotal">¥{{ (item.price * item.qty).toFixed(2) }}</span>
+              <button class="cell-del" @click="removeItem(item.id)">
+                <i class="fa-regular fa-trash-can"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- 结算栏 -->
+          <div class="cart-footer">
+            <button class="clear-all-btn" @click="clearAll">
+              <i class="fa-regular fa-trash-can"></i> 清空购物车
+            </button>
+            <div class="settle-box">
+              <span class="settle-info">
+                已选 <strong>{{ checkedCount }}</strong> 件，共 <strong>{{ totalQty }}</strong> 本
+              </span>
+              <span class="settle-total">
+                合计：<strong>¥{{ totalPrice.toFixed(2) }}</strong>
+              </span>
+              <button class="btn btn-primary btn-lg" @click="checkout">
+                去结算 <i class="fa-solid fa-angle-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 购物车为空 -->
+        <div v-else class="empty-state cart-empty">
+          <div class="empty-icon"><i class="fa-solid fa-cart-arrow-down"></i></div>
+          <p>购物车还是空的，快去挑选心仪的好书吧！</p>
+          <a class="btn btn-primary" href="books.html">去逛逛</a>
+        </div>
+      </div>
+
+      <!-- 猜你喜欢（原生态 JS 动态渲染） -->
+      <section class="recommend-section" aria-label="猜你喜欢">
+        <div class="section-title">
+          <div class="title-left"><h2>猜你喜欢</h2></div>
+        </div>
+        <div class="book-grid" id="guessGrid">
+          <!-- cart.js 渲染 -->
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ========== 公共页脚 ========== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo-text">青阅书城</div>
+          <p>青阅书城（QingYue Bookstore）是面向校园师生的数字图书商城，以“读万卷书，行万里路”为理念，汇聚计算机、文学、历史、经济等品类精选好书。</p>
+        </div>
+        <div class="footer-col">
+          <h4>快速导航</h4>
+          <ul>
+            <li><a href="books.html">图书商城</a></li>
+            <li><a href="data.html">数据看板</a></li>
+            <li><a href="paint.html">创意画板</a></li>
+            <li><a href="media.html">视听馆</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>用户服务</h4>
+          <ul>
+            <li><a href="login.html">会员登录</a></li>
+            <li><a href="register.html">新用户注册</a></li>
+            <li><a href="cart.html">购物车</a></li>
+            <li><a href="user.html">个人中心</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>联系我们</h4>
+          <ul>
+            <li><i class="fa-solid fa-envelope"></i> service@qingyue.com</li>
+            <li><i class="fa-solid fa-phone"></i> 0791-8888 6666</li>
+            <li><i class="fa-solid fa-location-dot"></i> 南昌大学前湖校区</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-links">
+          <a href="about.html">关于我们</a>
+          <a href="about.html#contact">联系方式</a>
+          <a href="404.html">帮助中心</a>
+        </div>
+        <p>© <span class="footer-year">2026</span> 青阅书城 QingYue Bookstore · Web前端设计与开发实训大作业</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 第三方库：Vue3（CDN，选做模块应用） -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.4.27/dist/vue.global.prod.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/dom.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/page/cart.js"></script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+/* ==========================================================================
+   base.css —— 基础样式文件（全局）
+   作用：浏览器样式重置 + 全局基础样式 + CSS 变量定义
+   层级：基础样式 → 公共样式（common.css） → 页面样式（page/*.css）
+   ========================================================================== */
+
+/* ---------- 1. 通配符选择器：重置浏览器默认边距，统一盒模型 ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ---------- 2. CSS 变量：统一全站主题色 / 字体 / 阴影 ---------- */
+:root {
+  /* 主题色板：以“青阅”品牌青蓝色为主色 */
+  --primary-color: #165DFF;        /* 主色 */
+  --primary-light: #4080FF;        /* 主色浅 */
+  --primary-dark: #0E42D2;         /* 主色深 */
+  --success-color: #00B42A;        /* 成功 */
+  --warning-color: #FF7D00;        /* 警告 */
+  --danger-color: #F53F3F;         /* 危险 */
+  --text-main: #1D2129;            /* 正文主色 */
+  --text-secondary: #4E5969;       /* 次要文字 */
+  --text-placeholder: #86909C;     /* 占位文字 */
+  --border-color: #E5E6EB;         /* 边框 */
+  --bg-page: #F5F7FA;              /* 页面背景 */
+  --bg-card: #FFFFFF;              /* 卡片背景 */
+  --gradient-brand: linear-gradient(135deg, #165DFF 0%, #6EAAFF 50%, #14C9C9 100%); /* 品牌渐变 */
+  --gradient-hot: linear-gradient(135deg, #FF7D00, #F53F3F);   /* 热卖渐变 */
+  --shadow-card: 0 4px 16px rgba(22, 93, 255, 0.08);           /* 卡片阴影 */
+  --shadow-hover: 0 8px 24px rgba(22, 93, 255, 0.16);          /* 悬停阴影 */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --font-family: "PingFang SC", "Microsoft YaHei", "微软雅黑", "Helvetica Neue", Arial, sans-serif;
+  --header-height: 72px;
+}
+
+/* ---------- 3. 标签选择器：全局基础样式 ---------- */
+html {
+  scroll-behavior: smooth;          /* 平滑滚动 */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: 14px;
+  line-height: 1.6;                /* 行高 */
+  color: var(--text-main);
+  background: var(--bg-page);
+  min-height: 100vh;
+  /* 全局浅色渐变背景，增强层次感 */
+  background-image: linear-gradient(180deg, #F7FAFF 0%, var(--bg-page) 320px);
+  background-attachment: fixed;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text-main);
+}
+
+/* 页面唯一主标题 */
+h1 {
+  font-size: 26px;
+}
+
+h2 { font-size: 22px; }
+h3 { font-size: 18px; }
+h4 { font-size: 16px; }
+
+p { line-height: 1.75; }
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--primary-dark);
+}
+
+ul, ol {
+  list-style: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input, select, textarea {
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--text-main);
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+}
+
+/* ---------- 4. 通用排版工具类 ---------- */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.section-title .title-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 标题左侧的装饰竖条（伪元素用法） */
+.section-title .title-left::before {
+  content: "";
+  display: block;
+  width: 4px;
+  height: 22px;
+  border-radius: 2px;
+  background: var(--gradient-brand);
+}
+
+.section-title h2 {
+  font-size: 22px;
+  letter-spacing: 1px;
+}
+
+.section-title .more-link {
+  font-size: 13px;
+  color: var(--text-placeholder);
+  transition: color 0.2s ease;
+}
+
+.section-title .more-link:hover {
+  color: var(--primary-color);
+}
+
+/* 文本省略 */
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* 浮动清除 */
+.clearfix::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+/* 页面主体留白 */
+.page-main {
+  padding: 24px 0 60px;
+  min-height: calc(100vh - var(--header-height) - 260px);
+}
+
+/* 隐藏元素 */
+.hidden {
+  display: none !important;
+}
+
+/* 滚动条美化 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C9CDD4;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-light);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* 选中文本颜色 */
+::selection {
+  background: rgba(22, 93, 255, 0.18);
+}

@@ -1,0 +1,48 @@
+/* ==========================================================================
+   register.css —— 仅作用于 register.html（注册页专属样式）
+   说明：认证页布局样式与 login.html 共用 login.css，
+   本文件存放注册页特有的密码强度条等样式。
+   ========================================================================== */
+
+/* ---------- 1. 密码强度指示条 ---------- */
+.pwd-strength {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.strength-bar {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: #E5E6EB;
+  transition: background 0.3s ease;
+}
+
+.pwd-strength em {
+  font-style: normal;
+  font-size: 12px;
+  color: var(--text-placeholder);
+  min-width: 56px;
+  text-align: right;
+}
+
+/* ---------- 2. 协议勾选 ---------- */
+.agree-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.agree-label a {
+  font-weight: 600;
+}
+
+.agree-label a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- 3. 注册成功提示样式 ---------- */
+.register-success .form-title {
+  color: var(--success-color);
+}

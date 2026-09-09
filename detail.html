@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="青阅书城图书详情页 —— 查看图书详情、用户评论，支持加入购物车与收藏。">
+  <title>图书详情 · 青阅书城</title>
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/page/detail.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+  <div class="page-loading" id="pageLoading">
+    <div class="loading-logo">青阅书城</div>
+    <div class="loading-spinner"></div>
+  </div>
+
+  <!-- ========== 公共头部 ========== -->
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="index.html" title="返回首页">
+        <img src="assets/icons/logo.svg" alt="青阅书城 Logo">
+        <div>
+          <div class="logo-text">青阅书城</div>
+          <div class="logo-sub">读万卷书 · 行万里路</div>
+        </div>
+      </a>
+      <nav class="main-nav" aria-label="主导航">
+        <ul>
+          <li><a href="index.html" data-page="index.html">首页</a></li>
+          <li><a href="books.html" data-page="books.html">图书商城</a></li>
+          <li><a href="data.html" data-page="data.html">数据看板</a></li>
+          <li><a href="paint.html" data-page="paint.html">创意画板</a></li>
+          <li><a href="media.html" data-page="media.html">视听馆</a></li>
+          <li><a href="about.html" data-page="about.html">关于我们</a></li>
+        </ul>
+      </nav>
+      <div class="header-tools">
+        <div class="header-search">
+          <input type="search" id="headerSearch" placeholder="搜索图书…" aria-label="站内搜索">
+          <button id="headerSearchBtn" aria-label="搜索"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+        <a class="icon-btn" href="cart.html" aria-label="购物车">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-badge">0</span>
+        </a>
+        <div class="login-area">
+          <a class="btn-login" href="login.html">登录</a>
+          <a class="btn-login btn-login-solid" href="register.html">注册</a>
+        </div>
+        <div class="user-area hidden">
+          <a class="icon-btn" href="user.html" title="个人中心">
+            <img class="user-avatar" src="assets/images/avatar/avatar-default.svg" alt="用户头像">
+          </a>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="展开菜单"><i class="fa-solid fa-bars"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-main">
+    <div class="container">
+
+      <!-- 面包屑 -->
+      <nav class="crumbs" aria-label="面包屑">
+        <a href="index.html">首页</a>
+        <span class="sep">/</span>
+        <a href="books.html">图书商城</a>
+        <span class="sep">/</span>
+        <span class="current" id="crumbTitle">图书详情</span>
+      </nav>
+
+      <div class="detail-layout">
+        <section class="detail-main">
+
+          <!-- ========== 商品信息区 ========== -->
+          <article class="goods-panel" id="goodsPanel">
+            <div class="goods-cover" id="goodsCover"></div>
+            <div class="goods-info">
+              <h1 id="goodsTitle">加载中…</h1>
+              <p class="goods-sub" id="goodsAuthor"></p>
+              <div class="goods-tags" id="goodsTags"></div>
+              <div class="goods-rating-row">
+                <span class="rating-score" id="goodsRating"></span>
+                <span class="rating-text" id="goodsRatingText"></span>
+                <span class="sales-text" id="goodsSales"></span>
+              </div>
+              <div class="price-row">
+                <span class="price-label">价格</span>
+                <span class="price-now" id="goodsPrice"></span>
+                <span class="price-original" id="goodsOriginalPrice"></span>
+                <span class="tag tag-green" id="goodsStock"></span>
+              </div>
+              <div class="goods-meta">
+                <p><i class="fa-solid fa-building"></i> 出版社：<span id="metaPublisher"></span></p>
+                <p><i class="fa-solid fa-calendar-days"></i> 出版日期：<span id="metaPubDate"></span></p>
+                <p><i class="fa-solid fa-file-lines"></i> 页数：<span id="metaPages"></span> 页</p>
+              </div>
+
+              <!-- 数量选择 -->
+              <div class="buy-row">
+                <span class="buy-label">数量</span>
+                <div class="qty-control">
+                  <button id="qtyMinus" aria-label="减少数量"><i class="fa-solid fa-minus"></i></button>
+                  <input type="number" id="qtyInput" value="1" min="1" max="99" aria-label="购买数量">
+                  <button id="qtyPlus" aria-label="增加数量"><i class="fa-solid fa-plus"></i></button>
+                </div>
+                <span class="stock-tip" id="stockTip"></span>
+              </div>
+
+              <div class="action-row">
+                <button class="btn btn-outline btn-lg" id="favBtn">
+                  <i class="fa-regular fa-heart"></i> 收藏
+                </button>
+                <button class="btn btn-primary btn-lg" id="addCartBtn">
+                  <i class="fa-solid fa-cart-plus"></i> 加入购物车
+                </button>
+                <button class="btn btn-buy btn-lg" id="buyNowBtn">
+                  <i class="fa-solid fa-bolt"></i> 立即购买
+                </button>
+              </div>
+              <p class="service-tip"><i class="fa-solid fa-circle-check"></i> 正版保障 · 48小时发货 · 7天无理由退换</p>
+            </div>
+          </article>
+
+          <!-- ========== 详情 / 评论 Tab ========== -->
+          <div class="tab-panel">
+            <div class="tab-head">
+              <button class="tab-btn active" data-tab="desc">图书详情</button>
+              <button class="tab-btn" data-tab="comment">用户评论 <span id="commentCount"></span></button>
+            </div>
+
+            <!-- 图书详情 -->
+            <section class="tab-content active" id="tabDesc">
+              <article class="desc-block">
+                <h3>内容简介</h3>
+                <p id="descText"></p>
+                <figure class="desc-figure">
+                  <img id="descCover" src="" alt="图书封面">
+                  <figcaption>《<span id="descTitle"></span>》封面 · 青阅书城在售</figcaption>
+                </figure>
+              </article>
+              <div class="desc-block">
+                <h3>图书参数</h3>
+                <table class="params-table">
+                  <tbody id="paramsBody"></tbody>
+                </table>
+              </div>
+            </section>
+
+            <!-- 用户评论 -->
+            <section class="tab-content" id="tabComment">
+              <!-- 发表评论（form：textarea 控件） -->
+              <form class="comment-form" id="commentForm">
+                <h3>发表评论</h3>
+                <div class="comment-rate">
+                  <span>评分：</span>
+                  <div class="star-input" id="starInput">
+                    <i class="fa-regular fa-star" data-star="1"></i>
+                    <i class="fa-regular fa-star" data-star="2"></i>
+                    <i class="fa-regular fa-star" data-star="3"></i>
+                    <i class="fa-regular fa-star" data-star="4"></i>
+                    <i class="fa-regular fa-star" data-star="5"></i>
+                  </div>
+                  <span class="star-hint" id="starHint">请选择评分</span>
+                </div>
+                <textarea class="form-control" id="commentText" rows="4" placeholder="分享你的阅读感受（10~200字）…"></textarea>
+                <div class="comment-form-actions">
+                  <span class="form-tip" id="commentTip"></span>
+                  <button type="submit" class="btn btn-primary">发布评论</button>
+                </div>
+              </form>
+              <div class="comment-list" id="commentList">
+                <!-- 评论由 detail.js 动态渲染 -->
+              </div>
+            </section>
+          </div>
+
+          <!-- ========== 相关推荐 ========== -->
+          <section class="related-section" aria-label="相关推荐">
+            <div class="section-title">
+              <div class="title-left"><h2>相关推荐</h2></div>
+            </div>
+            <div class="book-grid" id="relatedGrid">
+              <!-- 推荐图书由 detail.js 渲染 -->
+            </div>
+          </section>
+        </section>
+
+        <!-- ========== 侧边栏 ========== -->
+        <aside class="detail-aside" aria-label="侧边信息">
+          <div class="aside-card">
+            <h3 class="aside-title"><i class="fa-solid fa-fire-flame-curved"></i> 热销榜单</h3>
+            <ol class="mini-rank" id="miniRank"></ol>
+          </div>
+          <div class="aside-card">
+            <h3 class="aside-title"><i class="fa-solid fa-eye"></i> 最近浏览</h3>
+            <div class="recent-list" id="recentList"></div>
+          </div>
+          <details class="help-details">
+            <summary><i class="fa-solid fa-circle-question"></i> 购物指南</summary>
+            <ul>
+              <li>下单后 48 小时内发货</li>
+              <li>支持 7 天无理由退换</li>
+              <li>满 99 元包邮</li>
+              <li>正版图书假一赔十</li>
+            </ul>
+          </details>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========== 公共页脚 ========== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo-text">青阅书城</div>
+          <p>青阅书城（QingYue Bookstore）是面向校园师生的数字图书商城，以“读万卷书，行万里路”为理念，汇聚计算机、文学、历史、经济等品类精选好书。</p>
+        </div>
+        <div class="footer-col">
+          <h4>快速导航</h4>
+          <ul>
+            <li><a href="books.html">图书商城</a></li>
+            <li><a href="data.html">数据看板</a></li>
+            <li><a href="paint.html">创意画板</a></li>
+            <li><a href="media.html">视听馆</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>用户服务</h4>
+          <ul>
+            <li><a href="login.html">会员登录</a></li>
+            <li><a href="register.html">新用户注册</a></li>
+            <li><a href="cart.html">购物车</a></li>
+            <li><a href="user.html">个人中心</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>联系我们</h4>
+          <ul>
+            <li><i class="fa-solid fa-envelope"></i> service@qingyue.com</li>
+            <li><i class="fa-solid fa-phone"></i> 0791-8888 6666</li>
+            <li><i class="fa-solid fa-location-dot"></i> 南昌大学前湖校区</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-links">
+          <a href="about.html">关于我们</a>
+          <a href="about.html#contact">联系方式</a>
+          <a href="404.html">帮助中心</a>
+        </div>
+        <p>© <span class="footer-year">2026</span> 青阅书城 QingYue Bookstore · Web前端设计与开发实训大作业</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/dom.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/page/detail.js"></script>
+</body>
+</html>

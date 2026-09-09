@@ -1,0 +1,361 @@
+/* ==========================================================================
+   about.css —— 仅作用于 about.html（关于我们页）
+   ========================================================================== */
+
+/* ---------- 1. 品牌故事 ---------- */
+.story-card {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 30px;
+  background: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 36px 40px;
+  margin-bottom: 34px;
+  align-items: center;
+}
+
+.story-text h1 {
+  font-size: 30px;
+  margin-bottom: 8px;
+}
+
+.story-slogan {
+  color: var(--primary-color);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  margin-bottom: 14px;
+}
+
+.story-text > p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 12px;
+  text-align: justify;
+}
+
+.story-stats {
+  display: flex;
+  gap: 28px;
+  margin-top: 22px;
+}
+
+.story-stats div {
+  text-align: center;
+}
+
+.story-stats strong {
+  display: block;
+  font-size: 28px;
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.story-stats span {
+  font-size: 12px;
+  color: var(--text-placeholder);
+}
+
+.story-figure {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.14);
+}
+
+.story-figure img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+}
+
+.story-figure figcaption {
+  padding: 10px 14px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  background: #F7F8FA;
+  text-align: center;
+}
+
+/* ---------- 2. 发展历程（时间线） ---------- */
+.timeline-section {
+  margin-bottom: 34px;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 30px;
+}
+
+/* 时间线中轴（伪元素） */
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 6px;
+  bottom: 6px;
+  width: 3px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--primary-color), #14C9C9);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 22px;
+}
+
+.tl-dot {
+  position: absolute;
+  left: -30px;
+  top: 20px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  border: 4px solid var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(22, 93, 255, 0.15);
+}
+
+.tl-time {
+  font-size: 13px;
+  color: var(--primary-color);
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.tl-card {
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 16px 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tl-card:hover {
+  transform: translateX(8px);
+  box-shadow: var(--shadow-hover);
+}
+
+.tl-card h3 {
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+
+.tl-card p {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* ---------- 3. 团队介绍 ---------- */
+.team-section {
+  margin-bottom: 34px;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.team-card {
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 30px 24px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+}
+
+.team-avatar {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 16px;
+  box-shadow: 0 0 0 4px rgba(22, 93, 255, 0.12);
+}
+
+.team-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.team-card h3 {
+  font-size: 17px;
+  margin-bottom: 4px;
+}
+
+.team-role {
+  font-size: 13px;
+  color: var(--primary-color);
+  margin-bottom: 10px;
+}
+
+.team-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+/* ---------- 4. FAQ ---------- */
+.faq-section {
+  margin-bottom: 34px;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faq-item {
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.faq-item[open] {
+  box-shadow: var(--shadow-hover);
+}
+
+.faq-item summary {
+  padding: 16px 22px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+/* 展开箭头（伪元素） */
+.faq-item summary::before {
+  content: "\f078";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  color: var(--primary-color);
+  font-size: 12px;
+  transition: transform 0.3s ease;
+}
+
+.faq-item[open] summary::before {
+  transform: rotate(180deg);
+}
+
+.faq-item summary:hover {
+  color: var(--primary-color);
+}
+
+.faq-item p {
+  padding: 0 22px 16px 46px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.9;
+}
+
+/* ---------- 5. 联系我们 ---------- */
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.contact-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.info-card {
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 22px 24px;
+}
+
+.info-card h3 {
+  font-size: 15px;
+  margin-bottom: 14px;
+  padding-left: 10px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.info-card p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.info-card p i {
+  color: var(--primary-color);
+  width: 22px;
+}
+
+.ip-tip {
+  font-size: 12px !important;
+  color: var(--text-placeholder) !important;
+  margin-top: 4px;
+}
+
+.about-quote {
+  font-style: italic;
+  line-height: 1.9;
+}
+
+.quote-info {
+  background: linear-gradient(160deg, #F7FAFF, #fff);
+}
+
+/* ---------- 6. 响应式 ---------- */
+@media (max-width: 992px) {
+  .story-card {
+    grid-template-columns: 1fr;
+    padding: 26px 24px;
+  }
+
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .contact-form .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .story-stats {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+}

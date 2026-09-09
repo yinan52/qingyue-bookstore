@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="青阅书城数据看板 —— ECharts 数据可视化：销量趋势、分类占比、出版社销量、评分雷达。">
+  <title>数据看板 · 青阅书城</title>
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/page/data.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+  <div class="page-loading" id="pageLoading">
+    <div class="loading-logo">青阅书城</div>
+    <div class="loading-spinner"></div>
+  </div>
+
+  <!-- ========== 公共头部 ========== -->
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="index.html" title="返回首页">
+        <img src="assets/icons/logo.svg" alt="青阅书城 Logo">
+        <div>
+          <div class="logo-text">青阅书城</div>
+          <div class="logo-sub">读万卷书 · 行万里路</div>
+        </div>
+      </a>
+      <nav class="main-nav" aria-label="主导航">
+        <ul>
+          <li><a href="index.html" data-page="index.html">首页</a></li>
+          <li><a href="books.html" data-page="books.html">图书商城</a></li>
+          <li><a href="data.html" data-page="data.html">数据看板</a></li>
+          <li><a href="paint.html" data-page="paint.html">创意画板</a></li>
+          <li><a href="media.html" data-page="media.html">视听馆</a></li>
+          <li><a href="about.html" data-page="about.html">关于我们</a></li>
+        </ul>
+      </nav>
+      <div class="header-tools">
+        <div class="header-search">
+          <input type="search" id="headerSearch" placeholder="搜索图书…" aria-label="站内搜索">
+          <button id="headerSearchBtn" aria-label="搜索"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+        <a class="icon-btn" href="cart.html" aria-label="购物车">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-badge">0</span>
+        </a>
+        <div class="login-area">
+          <a class="btn-login" href="login.html">登录</a>
+          <a class="btn-login btn-login-solid" href="register.html">注册</a>
+        </div>
+        <div class="user-area hidden">
+          <a class="icon-btn" href="user.html" title="个人中心">
+            <img class="user-avatar" src="assets/images/avatar/avatar-default.svg" alt="用户头像">
+          </a>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="展开菜单"><i class="fa-solid fa-bars"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-main">
+    <div class="container">
+
+      <nav class="crumbs" aria-label="面包屑">
+        <a href="index.html">首页</a>
+        <span class="sep">/</span>
+        <span class="current">数据看板</span>
+      </nav>
+
+      <h1 class="page-title"><i class="fa-solid fa-chart-pie"></i> 图书销售数据看板</h1>
+
+      <!-- ========== 顶部统计卡片 ========== -->
+      <section class="dash-stats" aria-label="核心指标">
+        <div class="dash-stat">
+          <div class="ds-icon ds-blue"><i class="fa-solid fa-book"></i></div>
+          <div><strong id="totalBooks">0</strong><span>在售图书</span></div>
+        </div>
+        <div class="dash-stat">
+          <div class="ds-icon ds-orange"><i class="fa-solid fa-cart-shopping"></i></div>
+          <div><strong id="totalSales">0</strong><span>累计销量</span></div>
+        </div>
+        <div class="dash-stat">
+          <div class="ds-icon ds-green"><i class="fa-solid fa-users"></i></div>
+          <div><strong id="totalUsers">0</strong><span>注册用户</span></div>
+        </div>
+        <div class="dash-stat">
+          <div class="ds-icon ds-purple"><i class="fa-solid fa-star"></i></div>
+          <div><strong id="avgRating">0</strong><span>平均评分</span></div>
+        </div>
+      </section>
+
+      <!-- ========== 图表网格 ========== -->
+      <div class="chart-grid">
+
+        <!-- 折线图：月度销量趋势 -->
+        <section class="chart-card chart-wide" aria-label="月度销量趋势">
+          <div class="chart-head">
+            <h2><i class="fa-solid fa-chart-line"></i> 月度销量趋势</h2>
+            <span class="chart-tag">近 12 个月</span>
+          </div>
+          <div class="chart-box" id="lineChart"></div>
+        </section>
+
+        <!-- 饼图：分类占比 -->
+        <section class="chart-card" aria-label="图书分类占比">
+          <div class="chart-head">
+            <h2><i class="fa-solid fa-chart-pie"></i> 图书分类占比</h2>
+            <span class="chart-tag">按销量</span>
+          </div>
+          <div class="chart-box" id="pieChart"></div>
+        </section>
+
+        <!-- 柱状图：出版社销量 -->
+        <section class="chart-card chart-wide" aria-label="出版社销量排行">
+          <div class="chart-head">
+            <h2><i class="fa-solid fa-chart-column"></i> 出版社销量排行</h2>
+            <span class="chart-tag">TOP 6</span>
+          </div>
+          <div class="chart-box" id="barChart"></div>
+        </section>
+
+        <!-- 雷达图：图书评分维度 -->
+        <section class="chart-card" aria-label="评分维度雷达">
+          <div class="chart-head">
+            <h2><i class="fa-solid fa-star-half-stroke"></i> 图书综合评分雷达</h2>
+            <span class="chart-tag">维度对比</span>
+          </div>
+          <div class="chart-box" id="radarChart"></div>
+        </section>
+      </div>
+
+      <!-- ========== 热销榜 table ========== -->
+      <section class="chart-card table-card" aria-label="热销图书表格">
+        <div class="chart-head">
+          <h2><i class="fa-solid fa-fire-flame-curved"></i> 热销图书明细</h2>
+          <span class="chart-tag">按销量降序</span>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>排名</th>
+                <th>书名</th>
+                <th>作者</th>
+                <th>分类</th>
+                <th>评分</th>
+                <th>销量</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              <!-- data.js 渲染 -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ========== 公共页脚 ========== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo-text">青阅书城</div>
+          <p>青阅书城（QingYue Bookstore）是面向校园师生的数字图书商城，以“读万卷书，行万里路”为理念，汇聚计算机、文学、历史、经济等品类精选好书。</p>
+        </div>
+        <div class="footer-col">
+          <h4>快速导航</h4>
+          <ul>
+            <li><a href="books.html">图书商城</a></li>
+            <li><a href="data.html">数据看板</a></li>
+            <li><a href="paint.html">创意画板</a></li>
+            <li><a href="media.html">视听馆</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>用户服务</h4>
+          <ul>
+            <li><a href="login.html">会员登录</a></li>
+            <li><a href="register.html">新用户注册</a></li>
+            <li><a href="cart.html">购物车</a></li>
+            <li><a href="user.html">个人中心</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>联系我们</h4>
+          <ul>
+            <li><i class="fa-solid fa-envelope"></i> service@qingyue.com</li>
+            <li><i class="fa-solid fa-phone"></i> 0791-8888 6666</li>
+            <li><i class="fa-solid fa-location-dot"></i> 南昌大学前湖校区</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-links">
+          <a href="about.html">关于我们</a>
+          <a href="about.html#contact">联系方式</a>
+          <a href="404.html">帮助中心</a>
+        </div>
+        <p>© <span class="footer-year">2026</span> 青阅书城 QingYue Bookstore · Web前端设计与开发实训大作业</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 第三方库：ECharts（CDN） -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/dom.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/page/data.js"></script>
+</body>
+</html>

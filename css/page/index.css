@@ -1,0 +1,643 @@
+/* ==========================================================================
+   index.css —— 仅作用于 index.html（首页）
+   ========================================================================== */
+
+/* ---------- 1. 主视觉轮播 banner ---------- */
+.banner-section {
+  padding: 8px 0 4px;
+}
+
+#bannerApp .el-carousel {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+#bannerApp .el-carousel__container {
+  border-radius: var(--radius-lg);
+}
+
+.banner-slide {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--gradient-brand);
+  text-decoration: none;
+}
+
+/* 背景装饰圆（伪元素） */
+.banner-slide::before {
+  content: "";
+  position: absolute;
+  right: -80px;
+  top: -80px;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+}
+
+.banner-slide::after {
+  content: "";
+  position: absolute;
+  right: 60px;
+  bottom: -110px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.banner-text {
+  position: absolute;
+  left: 6%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  color: #fff;
+  max-width: 52%;
+}
+
+.banner-text h1 {
+  color: #fff;
+  font-size: 34px;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  animation: slideUp 0.8s ease both;
+}
+
+.banner-text p {
+  font-size: 16px;
+  opacity: 0.92;
+  margin-bottom: 24px;
+  animation: slideUp 0.8s 0.12s ease both;
+}
+
+.banner-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 26px;
+  border-radius: 22px;
+  background: #fff;
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: slideUp 0.8s 0.24s ease both;
+}
+
+.banner-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.24);
+}
+
+/* banner 文字入场动画 */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.banner-img-wrap {
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 6px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
+  animation: float 5s ease-in-out infinite;
+}
+
+.banner-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 插图轻微浮动动画 */
+@keyframes float {
+  0%, 100% { transform: translateY(-50%) translateX(0); }
+  50% { transform: translateY(calc(-50% - 10px)) translateX(4px); }
+}
+
+/* ---------- 2. 分类导航 ---------- */
+.category-section {
+  padding: 26px 0 6px;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+}
+
+.category-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 26px 10px;
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  border: 1px solid transparent;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.category-item:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(22, 93, 255, 0.25);
+}
+
+/* 分类图标圆底（伪元素装饰） */
+.category-item .cat-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #fff;
+}
+
+.category-item .cat-name {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.category-item .cat-count {
+  font-size: 12px;
+  color: var(--text-placeholder);
+}
+
+/* 分类卡片右上角小圆点装饰 */
+.category-item::after {
+  content: "";
+  position: absolute;
+  top: -18px;
+  right: -18px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(22, 93, 255, 0.06);
+  transition: transform 0.3s ease;
+}
+
+.category-item:hover::after {
+  transform: scale(1.4);
+}
+
+/* 各分类主题色 */
+.cat-computer .cat-icon { background: linear-gradient(135deg, #165DFF, #4080FF); }
+.cat-literature .cat-icon { background: linear-gradient(135deg, #F53F3F, #FF8F8F); }
+.cat-history .cat-icon { background: linear-gradient(135deg, #722ED1, #B37FEB); }
+.cat-economy .cat-icon { background: linear-gradient(135deg, #00B42A, #7BE188); }
+.cat-art .cat-icon { background: linear-gradient(135deg, #FF7D00, #FFB65C); }
+.cat-science .cat-icon { background: linear-gradient(135deg, #14C9C9, #6EE7E7); }
+
+/* ---------- 3. 图书网格（Grid 响应式卡片） ---------- */
+.hot-section {
+  padding: 30px 0 10px;
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.book-card {
+  position: relative;
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-hover);
+}
+
+.book-card .card-cover {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #F2F3F5;
+}
+
+.book-card .card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.book-card:hover .card-cover img {
+  transform: scale(1.06);
+}
+
+.book-card .card-body {
+  padding: 14px 16px 16px;
+}
+
+.book-card .card-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-main);
+}
+
+.book-card .card-author {
+  font-size: 12px;
+  color: var(--text-placeholder);
+  margin-bottom: 10px;
+}
+
+.book-card .card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.book-card .card-price {
+  color: var(--danger-color);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.book-card .card-price .rmb {
+  font-size: 12px;
+}
+
+.book-card .card-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--warning-color);
+}
+
+.book-card .card-sales {
+  font-size: 12px;
+  color: var(--text-placeholder);
+  margin-top: 6px;
+}
+
+/* ---------- 4. 新书上架 ---------- */
+.recommend-section {
+  padding: 30px 0 10px;
+}
+
+.recommend-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 28px;
+}
+
+.new-book-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.new-book-item {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  background: #fff;
+  border-radius: var(--radius-md);
+  padding: 14px;
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.new-book-item:hover {
+  transform: translateX(6px);
+  box-shadow: var(--shadow-hover);
+}
+
+.new-book-item .nb-cover {
+  width: 76px;
+  height: 100px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.new-book-item .nb-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.new-book-item .nb-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.new-book-item .nb-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--text-main);
+}
+
+.new-book-item .nb-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.new-book-item .nb-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 12px;
+  color: var(--text-placeholder);
+}
+
+.new-book-item .nb-price {
+  color: var(--danger-color);
+  font-weight: 700;
+  font-size: 16px;
+}
+
+/* ---------- 5. 销量排行（aside） ---------- */
+.rank-card {
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  position: sticky;
+  top: calc(var(--header-height) + 16px);
+}
+
+.rank-head {
+  padding: 16px 20px;
+  background: var(--gradient-brand);
+  color: #fff;
+}
+
+.rank-head h3 {
+  color: #fff;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rank-list {
+  padding: 8px 0;
+}
+
+.rank-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.rank-item:hover {
+  background: rgba(22, 93, 255, 0.05);
+}
+
+/* 排行名次徽标 */
+.rank-no {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: #F2F3F5;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* 前三名特殊样式（nth-child 伪类） */
+.rank-item:nth-child(1) .rank-no,
+.rank-item:nth-child(2) .rank-no,
+.rank-item:nth-child(3) .rank-no {
+  background: linear-gradient(135deg, #FF7D00, #F53F3F);
+  color: #fff;
+}
+
+.rank-item .rank-cover {
+  width: 40px;
+  height: 52px;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.rank-item .rank-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rank-item .rank-title {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rank-item .rank-sales {
+  font-size: 12px;
+  color: var(--text-placeholder);
+  flex-shrink: 0;
+}
+
+/* ---------- 6. 品牌数据 ---------- */
+.stats-section {
+  padding: 30px 0 10px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.stat-item {
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 26px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-4px);
+}
+
+/* 统计项背景装饰（伪元素） */
+.stat-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--gradient-brand);
+}
+
+.stat-num {
+  font-size: 34px;
+  font-weight: 800;
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 6px;
+}
+
+.stat-item p {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* ---------- 7. 每日一言 ---------- */
+.quote-section {
+  padding: 30px 0 10px;
+}
+
+.quote-card {
+  position: relative;
+  background: linear-gradient(135deg, #0F2027, #203A43, #2C5364);
+  border-radius: var(--radius-lg);
+  padding: 40px 48px;
+  text-align: center;
+  color: #fff;
+  overflow: hidden;
+  box-shadow: 0 14px 40px rgba(15, 32, 39, 0.35);
+}
+
+.quote-card i.fa-quote-left {
+  font-size: 36px;
+  opacity: 0.5;
+  margin-bottom: 12px;
+}
+
+.quote-card p {
+  font-size: 18px;
+  line-height: 1.9;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  min-height: 34px;
+}
+
+.quote-card span {
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+/* 一言卡片背景装饰圆 */
+.quote-card::before {
+  content: "";
+  position: absolute;
+  left: -60px;
+  bottom: -60px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* ---------- 8. 响应式 ---------- */
+@media (max-width: 992px) {
+  .category-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .book-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .recommend-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .rank-card {
+    position: static;
+  }
+
+  .banner-text h1 {
+    font-size: 26px;
+  }
+
+  .banner-img-wrap {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+@media (max-width: 640px) {
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .banner-img-wrap {
+    display: none;
+  }
+
+  .banner-text {
+    max-width: 90%;
+    left: 8%;
+  }
+
+  .banner-text h1 {
+    font-size: 22px;
+  }
+
+  .banner-text p {
+    font-size: 13px;
+  }
+
+  .quote-card {
+    padding: 28px 20px;
+  }
+
+  .quote-card p {
+    font-size: 15px;
+  }
+}
