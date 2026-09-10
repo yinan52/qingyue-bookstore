@@ -81,10 +81,11 @@
           <a class="btn btn-primary btn-lg" href="login.html?redirect=user.html">去登录</a>
         </div>
 
-        <div v-else class="user-layout">
+        <!-- ========== Element Plus Layout 布局：el-container 响应式网格 ========== -->
+        <el-container v-else class="user-layout">
 
-          <!-- ========== 左侧：Element Plus 折叠导航 ========== -->
-          <aside class="user-side">
+          <!-- ========== 左侧：el-aside 折叠导航（支持移动端折叠） ========== -->
+          <el-aside class="user-side" :width="menuCollapsed ? '72px' : '240px'">
             <el-menu
               :default-active="activeTab"
               :collapse="menuCollapsed"
@@ -107,36 +108,24 @@
             <button class="collapse-btn" @click="menuCollapsed = !menuCollapsed">
               <i class="fa-solid" :class="menuCollapsed ? 'fa-angles-right' : 'fa-angles-left'"></i>
             </button>
-          </aside>
+          </el-aside>
 
-          <!-- ========== 右侧内容区 ========== -->
-          <section class="user-content">
+          <!-- ========== 右侧：el-main 内容区 ========== -->
+          <el-main class="user-content">
 
             <!-- 我的概览 -->
             <div v-show="activeTab === 'overview'" class="panel">
               <h2 class="panel-title">我的概览</h2>
-              <div class="stat-cards">
-                <div class="u-stat" @click="activeTab='favorites'">
-                  <i class="fa-solid fa-heart"></i>
-                  <strong>{{ favorites.length }}</strong>
-                  <span>收藏</span>
-                </div>
-                <div class="u-stat" @click="activeTab='orders'">
-                  <i class="fa-solid fa-receipt"></i>
-                  <strong>{{ orders.length }}</strong>
-                  <span>订单</span>
-                </div>
-                <div class="u-stat" @click="activeTab='history'">
-                  <i class="fa-solid fa-clock-rotate-left"></i>
-                  <strong>{{ history.length }}</strong>
-                  <span>浏览</span>
-                </div>
-                <div class="u-stat">
-                  <i class="fa-solid fa-cart-shopping"></i>
-                  <strong>{{ cartCount }}</strong>
-                  <span>购物车</span>
-                </div>
-              </div>
+              <!-- Element Plus el-row/el-col 响应式网格布局 -->
+              <el-row :gutter="16" class="stat-cards">
+                <el-col :xs="12" :sm="12" :md="6" v-for="(stat, si) in overviewStats" :key="si">
+                  <div class="u-stat" @click="stat.tab && (activeTab = stat.tab)">
+                    <i :class="stat.icon"></i>
+                    <strong>{{ stat.value }}</strong>
+                    <span>{{ stat.label }}</span>
+                  </div>
+                </el-col>
+              </el-row>
               <div class="welcome-card">
                 <h3>欢迎回来，{{ user.nickname || user.username }} 👋</h3>
                 <p>注册时间：{{ registerTime }} · 最近登录：{{ lastLogin || '首次登录' }}</p>
@@ -268,8 +257,8 @@
                 <button class="btn btn-danger" @click="doLogout">退出登录</button>
               </div>
             </div>
-          </section>
-        </div>
+          </el-main>
+        </el-container>
       </div>
     </div>
   </main>

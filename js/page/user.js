@@ -95,6 +95,14 @@
         cartCount() {
           return getCart().reduce((s, i) => s + i.qty, 0);
         },
+        overviewStats() {
+          return [
+            { icon: 'fa-solid fa-heart', value: this.favorites.length, label: '收藏', tab: 'favorites' },
+            { icon: 'fa-solid fa-receipt', value: this.orders.length, label: '订单', tab: 'orders' },
+            { icon: 'fa-solid fa-clock-rotate-left', value: this.history.length, label: '浏览', tab: 'history' },
+            { icon: 'fa-solid fa-cart-shopping', value: this.cartCount, label: '购物车', tab: '' }
+          ];
+        },
         registerTime() {
           return this.user ? formatTime(this.user.registerTime) : '';
         },

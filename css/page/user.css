@@ -32,13 +32,12 @@
 
 /* ---------- 1. 主布局 ---------- */
 .user-layout {
-  display: grid;
-  grid-template-columns: 240px 1fr;
+  /* Element Plus el-container 自带 display:flex，此处仅补充间距与对齐 */
   gap: 24px;
   align-items: start;
 }
 
-/* ---------- 2. 左侧菜单 ---------- */
+/* ---------- 2. 左侧菜单（el-aside） ---------- */
 .user-side {
   background: #fff;
   border-radius: var(--radius-md);
@@ -46,6 +45,7 @@
   overflow: hidden;
   position: sticky;
   top: calc(var(--header-height) + 16px);
+  flex-shrink: 0;
 }
 
 .user-menu {
@@ -111,9 +111,10 @@
   color: var(--primary-color);
 }
 
-/* ---------- 3. 右侧面板 ---------- */
+/* ---------- 3. 右侧面板（el-main，重置 Element Plus 默认 padding） ---------- */
 .user-content {
   min-width: 0;
+  padding: 0 !important;
 }
 
 .panel {
@@ -440,11 +441,12 @@
 /* ---------- 4. 响应式 ---------- */
 @media (max-width: 992px) {
   .user-layout {
-    grid-template-columns: 1fr;
+    flex-direction: column;
   }
 
   .user-side {
     position: static;
+    width: 100% !important;
   }
 
   .stat-cards {
