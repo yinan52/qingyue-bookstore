@@ -62,7 +62,25 @@
 .main-nav {
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  min-width: 0;
+}
+
+.main-nav ul {
+  display: flex !important;
+  align-items: center;
+  gap: 4px;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.main-nav ul li {
+  display: inline-flex;
+  align-items: center;
   height: 100%;
 }
 
@@ -864,7 +882,26 @@
 }
 
 /* ---------- 10. 响应式 ---------- */
+/* 中等屏幕（769px~992px）：保持水平导航，适当收紧间距 */
 @media (max-width: 992px) {
+  .main-nav ul {
+    gap: 0;
+  }
+  .main-nav li a {
+    padding: 0 10px;
+    font-size: 14px;
+  }
+  .header-search input {
+    width: 110px;
+  }
+  .footer-top {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+}
+
+/* 小屏幕（≤768px）：切换为移动端汉堡菜单 */
+@media (max-width: 768px) {
   .nav-toggle {
     display: flex;
     align-items: center;
@@ -886,6 +923,14 @@
     overflow: hidden;
     transition: max-height 0.4s ease;
     gap: 2px;
+    flex: none;
+  }
+
+  .main-nav ul {
+    flex-direction: column;
+    align-items: stretch;
+    height: auto;
+    gap: 2px;
   }
 
   .main-nav.open {
@@ -899,11 +944,6 @@
 
   .header-search input {
     width: 90px;
-  }
-
-  .footer-top {
-    grid-template-columns: 1fr 1fr;
-    gap: 28px;
   }
 }
 
