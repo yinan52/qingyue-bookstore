@@ -18,7 +18,8 @@
 | 项目类型 | 纯前端静态网站（无后端，数据本地化 + 免费开源 API） |
 | 页面数量 | 12 个（首页 / 图书商城 / 图书详情 / 购物车 / 登录 / 注册 / 个人中心 / 数据看板 / 创意画板 / 视听馆 / 关于我们 / 404） |
 | 运行方式 | 双击 `index.html` 即可打开；推荐使用本地静态服务器以获得最佳体验 |
-| 部署地址 | Gitee 仓库：https://gitee.com/yinan0828/qingyue-bookstore（代码托管，已上线） |
+| 部署地址 | GitHub 仓库：https://github.com/yinan52/qingyue-bookstore（代码托管 + GitHub Pages 已上线） |
+| 在线预览 | https://yinan52.github.io/qingyue-bookstore/ |
 
 ### 整体截图
 
@@ -45,7 +46,7 @@
 | Element Plus（必做） | 首页/个人中心 | `el-carousel` 轮播；`el-menu` 折叠导航；`el-form` 表单；`el-button`、`el-input`；CDN 引入 + Layout 响应式 |
 | Vue3（选做） | 购物车/个人中心 | CDN 引入；`createApp` 组件化；`v-model` 响应式数据绑定；`computed` 计算属性（合计/全选）；`methods` 事件方法 |
 | Axios（选做） | 首页/关于页 | CDN 引入；远程 API 调用：一言（v1.hitokoto.cn）、公网 IP（api.ipify.org），实现前后端分离演示 |
-| 网站部署（选做） | 全站 | 本地 HTTP 服务器部署 + 内网穿透方案 + Gitee/GitHub 静态托管教程 |
+| 网站部署（选做） | 全站 | 本地 HTTP 服务器部署 + GitHub Pages 静态托管（已上线） |
 
 ---
 
@@ -164,40 +165,55 @@ const sorted = Object.entries(pubMap).sort((a, b) => b[1] - a[1]).slice(0, 6);
 
 ### 当前部署状态
 
-- **Gitee 代码托管（已完成）**：项目已推送至公开仓库 https://gitee.com/yinan0828/qingyue-bookstore ，可在线查看与克隆全部源码。
-- **本地部署（已完成）**：`python -m http.server` 本地服务运行正常，可直接演示。
+- **GitHub Pages（已上线）**：https://yinan52.github.io/qingyue-bookstore/ — 代码推送后自动部署，全球可访问。
+- **本地部署（已验证）**：`python -m http.server` 本地服务运行正常，可直接演示。
 
-### 方式 A：本地部署（已实现，推荐演示用）
+### 方式 A：本地临时部署（任务书选项2，推荐演示用）
+
+本项目为纯静态网站，无需后端环境，任意静态文件服务器均可运行。
+
+**方法 1：Python 内置服务器（零依赖，推荐）**
 
 ```bash
-# 在项目根目录启动任意静态服务器
+# 进入项目根目录
+cd 青阅书城
+
+# Python 3 启动静态服务器（端口可自定义）
 python -m http.server 8080
-# 或
-npx serve .
 ```
 
-访问 `http://localhost:8080` 即可。若需内网穿透公网访问，可使用 cpolar / 花生壳等工具（免费隧道需注册账号）。
+浏览器访问 `http://localhost:8080` 即可。
 
-### 方式 B：Gitee Pages（需实名认证，审核后生效）
+**方法 2：Node.js serve**
 
-1. 登录 Gitee，新建仓库（公开，命名如 `qingyue-bookstore`）；
-2. 本地推送：
+```bash
+npx serve . -l 8080
+```
+
+**方法 3：VSCode Live Server 插件**
+
+安装 "Live Server" 插件后，右键 `index.html` → "Open with Live Server"，自动启动并支持热更新。
+
+**方法 4：直接双击打开**
+
+双击 `index.html` 以 `file://` 协议打开，核心功能均可运行（CDN 库需联网）。
+
+> **内网穿透（可选）**：若需将本地服务暴露到公网演示，可使用 cpolar / 花生壳 / ngrok 等工具，将本地 8080 端口映射为公网地址。
+
+### 方式 B：GitHub Pages 静态托管（已完成）
+
+1. GitHub 新建仓库 `qingyue-bookstore`，推送代码：
 
 ```bash
 git init
 git add .
 git commit -m "青阅书城 QingYue Bookstore"
-git remote add origin https://gitee.com/<你的用户名>/qingyue-bookstore.git
+git remote add origin git@github.com:<你的用户名>/qingyue-bookstore.git
 git push -u origin master
 ```
 
-3. 仓库 → 服务 → Gitee Pages → 选择部署分支 `master`、目录 `/` → 启动，等待审核。
-
-### 方式 C：GitHub Pages（免费，无需审核）
-
-1. GitHub 新建仓库，推送代码（默认分支 `main`）；
-2. 仓库 Settings → Pages → Source 选择 `Deploy from a branch` → 分支 `main`、目录 `/` → Save；
-3. 访问 `https://<用户名>.github.io/<仓库名>/`。
+2. 仓库 Settings → Pages → Source 选择 `Deploy from a branch` → 分支 `master`、目录 `/` → Save；
+3. 等待 1-2 分钟，访问 `https://<用户名>.github.io/qingyue-bookstore/`。
 
 ---
 
