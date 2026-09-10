@@ -365,10 +365,31 @@
     });
   }
 
+  /* ---------- 8.8 Vue3 + Element Plus 轮播图挂载 ---------- */
+  function mountBannerApp() {
+    if (typeof Vue === 'undefined' || typeof ElementPlus === 'undefined') {
+      console.warn('Vue3 或 Element Plus 未加载，轮播图降级为静态展示');
+      return;
+    }
+    const banners = [
+      { id: 1, title: '开学季 · 计算机经典钜惠', subtitle: '精选编程好书 低至 7 折，满 200 减 30', link: 'books.html?category=computer', img: 'assets/images/banner/banner-01.jpg' },
+      { id: 2, title: '文学周 · 读懂中国与世界', subtitle: '历史 / 文学 / 艺术 全场包邮，新人立减 10 元', link: 'books.html?category=literature', img: 'assets/images/banner/banner-02.jpg' },
+      { id: 3, title: '会员专享 · 积分翻倍兑好书', subtitle: '签到领积分，积分当钱花，更多好礼等你来', link: 'user.html', img: 'assets/images/banner/banner-03.jpg' }
+    ];
+    const app = Vue.createApp({
+      data() {
+        return { banners };
+      }
+    });
+    app.use(ElementPlus);
+    app.mount('#bannerApp');
+  }
+
   /* ---------- 9. 页面初始化 ---------- */
   function init() {
     initPageLoading();
     initLayout('index.html');
+    mountBannerApp();
     renderCategories();
     renderHotBooks();
     renderNewBooks();
