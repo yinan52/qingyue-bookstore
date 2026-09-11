@@ -69,7 +69,23 @@
             mobile: user?.mobile || '',
             email: user?.email || '',
             signature: user?.signature || ''
-          }
+          },
+          // 收货地址
+          addressDialogVisible: false,
+          addressFormRef: null,
+          addressForm: this._emptyAddressForm(),
+          addressRules: {
+            name: [{ required: true, message: '请输入收货人', trigger: 'blur' }],
+            phone: [
+              { required: true, message: '请输入手机号', trigger: 'blur' },
+              { pattern: /^1[3-9]\d{9}$/, message: '手机号格式不正确', trigger: 'blur' }
+            ],
+            province: [{ required: true, message: '请输入省份', trigger: 'blur' }],
+            city: [{ required: true, message: '请输入城市', trigger: 'blur' }],
+            district: [{ required: true, message: '请输入区县', trigger: 'blur' }],
+            detail: [{ required: true, message: '请输入详细地址', trigger: 'blur' }]
+          },
+          addresses: []
         };
       },
       computed: {
@@ -164,6 +180,77 @@
           logoutUser();
         },
 
+        /* 收货地址：从 localStorage 加载到响应式数组 */
+        loadAddresses() {
+          if (!this.user) { this.addresses = []; return; }
+          this.addresses = getStorage('qy_addresses_' + this.user.username, []);
+        },
+        /* 收货地址：空表单 */
+        _emptyAddressForm() {
+          return { id: null, name: '', phone: '', province: '', city: '', district: '', detail: '', isDefault: false };
+        },
+        /* 收货地址：打开新增/编辑弹窗 */
+        openAddressDialog(addr) {
+          if (addr) {
+            this.addressForm = { ...addr };
+          } else {
+            this.addressForm = this._emptyAddressForm();
+          }
+          this.addressDialogVisible = true;
+          this.$nextTick(() => {
+            if (this.addressFormRef) this.addressFormRef.clearValidate();
+          });
+        },
+        /* 收货地址：保存（新增或编辑） */
+        saveAddress() {
+          this.$refs.addressFormRef.validate((valid) => {
+            if (!valid) return;
+            if (!this.user) return;
+            const key = 'qy_addresses_' + this.user.username;
+            let list = getStorage(key, []);
+            const form = { ...this.addressForm };
+            if (form.isDefault) {
+              list.forEach((a) => (a.isDefault = false));
+            }
+            if (form.id) {
+              const idx = list.findIndex((a) => a.id === form.id);
+              if (idx > -1) list[idx] = form;
+            } else {
+              form.id = 'addr_' + Date.now();
+              if (list.length === 0) form.isDefault = true;
+              list.push(form);
+            }
+            setStorage(key, list);
+            this.addresses = list;
+            this.addressDialogVisible = false;
+            showToast(form.id ? '地址已更新' : '地址已添加', 'success');
+          });
+        },
+        /* 收货地址：设为默认 */
+        setDefaultAddress(id) {
+          if (!this.user) return;
+          const key = 'qy_addresses_' + this.user.username;
+          const list = getStorage(key, []);
+          list.forEach((a) => (a.isDefault = a.id === id));
+          setStorage(key, list);
+          this.addresses = list;
+          showToast('已设为默认地址', 'success');
+        },
+        /* 收货地址：删除 */
+        async deleteAddress(id) {
+          const ok = await showConfirm({ title: '删除地址', message: '确定要删除这个收货地址吗？' });
+          if (!ok) return;
+          if (!this.user) return;
+          const key = 'qy_addresses_' + this.user.username;
+          let list = getStorage(key, []);
+          const wasDefault = list.find((a) => a.id === id)?.isDefault;
+          list = list.filter((a) => a.id !== id);
+          if (wasDefault && list.length > 0) list[0].isDefault = true;
+          setStorage(key, list);
+          this.addresses = list;
+          showToast('地址已删除', 'success');
+        },
+
         /* B5. 查看订单详情：商品明细 + 订单信息 + 物流时间线 */
         showOrderDetail(order) {
           const statusText = (typeof ORDER_STATUS_MAP !== 'undefined' && ORDER_STATUS_MAP[order.status])
@@ -241,7 +328,8 @@
       }
     });
     app.use(ElementPlus);
-    app.mount('#userApp');
+    const vm = app.mount('#userApp');
+    vm.loadAddresses();
   }
 
   /* ---------- 3. 初始化 ---------- */
