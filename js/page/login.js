@@ -1,6 +1,6 @@
 /* ==========================================================================
    login.js —— 仅作用于 login.html（登录页）
-   功能：表单验证、Canvas 验证码、密码可见切换、记住用户名（localStorage）
+   功能：表单验证、Canvas 验证码、密码可见切换、记住密码（localStorage）
    ========================================================================== */
 (function () {
   'use strict';
@@ -17,11 +17,11 @@
     captchaCanvas.addEventListener('click', () => createCaptcha(captchaCanvas));
   }
 
-  /* ---------- 2. 记住用户名（localStorage 读取回填） ---------- */
+  /* ---------- 2. 记住密码（localStorage 读取回填） ---------- */
   function loadRemembered() {
-    const remembered = getStorage('qy_remember_username', '');
+    const remembered = getStorage('qy_remember_password', '');
     if (remembered) {
-      usernameInput.value = remembered;
+      passwordInput.value = remembered;
       getElement('#rememberMe').checked = true;
     }
   }
@@ -99,11 +99,11 @@
       return;
     }
 
-    // 记住用户名（存储 / 删除）
+    // 记住密码（存储 / 删除）
     if (getElement('#rememberMe').checked) {
-      setStorage('qy_remember_username', username);
+      setStorage('qy_remember_password', password);
     } else {
-      removeStorage('qy_remember_username');
+      removeStorage('qy_remember_password');
     }
 
     showToast(result.msg, 'success');
