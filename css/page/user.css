@@ -662,3 +662,102 @@
   align-items: center;
   margin-bottom: 18px;
 }
+
+
+/* ==========================================================================
+   会员积分系统
+   ========================================================================== */
+.points-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #fff7e6 0%, #ffe7ba 100%);
+  border: 1px solid #ffd591;
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
+  margin-top: 16px;
+}
+
+.points-left { flex: 1; }
+
+.points-balance {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.points-balance i {
+  color: #fa8c16;
+  font-size: 22px;
+}
+
+.points-balance strong {
+  font-size: 32px;
+  color: #d46b08;
+  font-weight: 700;
+}
+
+.points-balance span {
+  font-size: 14px;
+  color: #d46b08;
+}
+
+.points-tip {
+  font-size: 13px;
+  color: #ad6800;
+  margin: 0;
+}
+
+.points-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.points-right .btn[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.points-records {
+  background: #fff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  margin-top: 12px;
+}
+
+.points-records h4 {
+  font-size: 15px;
+  margin-bottom: 12px;
+  color: var(--text-main);
+}
+
+.records-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.record-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border-light);
+}
+
+.record-item:last-child { border-bottom: none; }
+
+.record-desc { font-size: 14px; color: var(--text-main); margin: 0; }
+.record-time { font-size: 12px; color: var(--text-placeholder); margin: 2px 0 0; }
+
+.record-amount {
+  font-size: 16px;
+  font-weight: 600;
+}
+.record-amount.earn { color: var(--success-color, #00b42a); }
+.record-amount.spend { color: var(--danger-color, #f53f3f); }

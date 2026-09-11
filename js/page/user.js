@@ -85,7 +85,10 @@
             district: [{ required: true, message: '请输入区县', trigger: 'blur' }],
             detail: [{ required: true, message: '请输入详细地址', trigger: 'blur' }]
           },
-          addresses: []
+          addresses: [],
+          // 积分系统
+          points: { balance: 0, records: [], signDays: 0, todaySigned: false },
+          showPointsRecords: false
         };
       },
       computed: {
@@ -178,6 +181,57 @@
         /* 退出登录 */
         doLogout() {
           logoutUser();
+        },
+
+        /* 积分：加载积分数据 */
+        loadPoints() {
+          if (!this.user) return;
+          const data = getStorage('qy_points_' + this.user.username, { balance: 0, records: [], lastSignDate: '', signDays: 0 });
+          const today = new Date().toISOString().slice(0, 10);
+          this.points = {
+            balance: data.balance || 0,
+            records: data.records || [],
+            signDays: data.signDays || 0,
+            todaySigned: data.lastSignDate === today
+          };
+        },
+        /* 积分：保存积分数据 */
+        savePoints() {
+          if (!this.user) return;
+          const today = new Date().toISOString().slice(0, 10);
+          setStorage('qy_points_' + this.user.username, {
+            balance: this.points.balance,
+            records: this.points.records,
+            lastSignDate: this.points.todaySigned ? today : '',
+            signDays: this.points.signDays
+          });
+        },
+        /* 积分：添加积分记录 */
+        addPoints(amount, desc) {
+          if (!this.user) return;
+          this.points.balance += amount;
+          this.points.records.unshift({
+            id: 'pt_' + Date.now(),
+            type: 'earn',
+            amount,
+            desc,
+            time: new Date().toLocaleString('zh-CN')
+          });
+          if (this.points.records.length > 50) this.points.records = this.points.records.slice(0, 50);
+          this.savePoints();
+        },
+        /* 积分：每日签到 */
+        doSignIn() {
+          if (this.points.todaySigned) return;
+          const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+          const data = getStorage('qy_points_' + this.user.username, { lastSignDate: '', signDays: 0 });
+          const isContinuous = data.lastSignDate === yesterday;
+          this.points.signDays = isContinuous ? (data.signDays || 0) + 1 : 1;
+          let bonus = 10;
+          if (this.points.signDays === 7) { bonus = 50; this.points.signDays = 0; }
+          this.points.todaySigned = true;
+          this.addPoints(bonus, `每日签到（连续${this.points.signDays}天）`);
+          showToast(`签到成功，获得 ${bonus} 积分！`, 'success');
         },
 
         /* 收货地址：从 localStorage 加载到响应式数组 */
@@ -330,6 +384,7 @@
     app.use(ElementPlus);
     const vm = app.mount('#userApp');
     vm.loadAddresses();
+    vm.loadPoints();
   }
 
   /* ---------- 3. 初始化 ---------- */

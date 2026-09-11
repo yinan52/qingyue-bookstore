@@ -131,6 +131,46 @@
                 <h3>欢迎回来，{{ user.nickname || user.username }} 👋</h3>
                 <p>注册时间：{{ registerTime }} · 最近登录：{{ lastLogin || '首次登录' }}</p>
               </div>
+
+              <!-- 积分卡片 -->
+              <div class="points-card">
+                <div class="points-left">
+                  <div class="points-balance">
+                    <i class="fa-solid fa-coins"></i>
+                    <strong>{{ points.balance }}</strong>
+                    <span>积分</span>
+                  </div>
+                  <p class="points-tip">连续签到 {{ points.signDays }} 天 · 签到得积分，积分可兑好礼</p>
+                </div>
+                <div class="points-right">
+                  <button class="btn btn-primary" :disabled="points.todaySigned" @click="doSignIn">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    {{ points.todaySigned ? '今日已签到' : '每日签到 +10' }}
+                  </button>
+                  <button class="btn btn-outline btn-sm" @click="showPointsRecords = !showPointsRecords" style="margin-top:8px;">
+                    积分明细 ({{ points.records.length }})
+                  </button>
+                </div>
+              </div>
+
+              <!-- 积分明细 -->
+              <div v-show="showPointsRecords" class="points-records">
+                <h4>积分明细</h4>
+                <div v-if="points.records.length" class="records-list">
+                  <div class="record-item" v-for="r in points.records" :key="r.id">
+                    <div class="record-info">
+                      <p class="record-desc">{{ r.desc }}</p>
+                      <p class="record-time">{{ r.time }}</p>
+                    </div>
+                    <span class="record-amount" :class="r.type === 'earn' ? 'earn' : 'spend'">
+                      {{ r.type === 'earn' ? '+' : '-' }}{{ r.amount }}
+                    </span>
+                  </div>
+                </div>
+                <div v-else class="empty-state" style="padding:20px;">
+                  <p>暂无积分记录</p>
+                </div>
+              </div>
             </div>
 
             <!-- 我的收藏 -->
