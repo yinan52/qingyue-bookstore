@@ -28,7 +28,13 @@ const STORAGE_KEYS = {
 function getStorage(key, defaultValue = null) {
   try {
     const value = localStorage.getItem(key);
-    return value === null ? defaultValue : JSON.parse(value);
+    if (value === null) return defaultValue;
+    // 优先尝试JSON解析，失败则返回原始字符串（兼容旧数据格式）
+    try {
+      return JSON.parse(value);
+    } catch {
+      return value;
+    }
   } catch (e) {
     console.warn('读取本地存储失败：', key, e);
     return defaultValue;
