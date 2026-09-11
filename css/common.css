@@ -1359,3 +1359,16 @@ img.lazy-img.loaded {
 .suggest-item .sug-price { color: var(--danger-color); font-weight: 600; }
 .suggest-item.active { background: rgba(22, 93, 255, 0.08); }
 
+
+
+/* 按钮按下状态 :active 伪类 */
+.btn:active,
+.btn-primary:active,
+.icon-btn:active {
+  transform: scale(0.96);
+  filter: brightness(0.9);
+}
+
+.nav-link:active {
+  color: var(--primary-color);
+}
